@@ -59,13 +59,13 @@ The design elements for this project include:
 #### Figma Mockups: 
 
 #### Login Screens
-![Login Screens](screenshots/login_screens.png)
+![Login Screens](designs/login_screens.png)
 
 #### Parent App Screens
-![Parent App Screens](screenshots/parentapp_screens.png)
+![Parent App Screens](designs/parentapp_screens.png)
 
 #### Teacher App Screens
-![Login Screens](screenshots/teacherapp_screens.png)
+![Login Screens](designs/teacherapp_screens.png)
 
 
 [View Figma Designs](https://www.figma.com/your-design-link)
