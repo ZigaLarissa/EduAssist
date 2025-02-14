@@ -91,6 +91,11 @@ The deployment of EduAssist follows these steps:
    - Deploy the system for public use.
    - Monitor and improve continuously.
 
+## Initial software product/solution demonstration
+
+[View Demo Video](https://drive.google.com/file/d/1dklFcMEPbwWeEf0dYE4nII3zdAj5Yn9f/view?usp=sharing)
+
+
 ## Contributors
 - Larissa Bizimungu
 
