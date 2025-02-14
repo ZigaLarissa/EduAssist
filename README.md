@@ -68,7 +68,7 @@ The design elements for this project include:
 ![Login Screens](designs/teacherapp_screens.png)
 
 
-[View Figma Designs](https://www.figma.com/your-design-link)
+[View Figma Designs](https://www.figma.com/design/uViFFozXs86d6exWbJa9h5/EduAssist?node-id=42-18814&t=C1dwlhU5RPK0E38c-1)
 
 ## Deployment Plan
 The deployment of EduAssist follows these steps:
