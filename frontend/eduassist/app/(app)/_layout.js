@@ -4,8 +4,6 @@ import { Stack } from 'expo-router'
 
 export default function _layout() {
   return (
-    <View>
       <Stack />
-    </View>
   )
 }

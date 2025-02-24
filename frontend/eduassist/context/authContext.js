@@ -12,42 +12,40 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     // on auth state changed
 
-    setTimeout(() => {
-      setIsAuthenticated(true);
-    }, 3000);
+    // setTimeout(() => {
+      setIsAuthenticated(false);
+    // }, 3000);
   }, []);
 
   // Sign Up New User
-  const signUp = async (email, password) => {
+  const login = async (email, password) => {
     try {
-      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-      return userCredential.user;
-    } catch (error) {
-      throw error;
+      
+    } catch (e) {
+    
     }
   };
 
   // Login User
-  const login = async (email, password) => {
+  const logout = async () => {
     try {
-      const userCredential = await auth().signInWithEmailAndPassword(email, password);
-      return userCredential.user;
-    } catch (error) {
-      throw error;
+    
+    } catch (e) {
+    
     }
   };
 
   // Logout User
-  const logout = async () => {
+  const register = async (email, password) => {
     try {
-      await auth().signOut();
-    } catch (error) {
-      throw error;
+    
+    } catch (e) {
+    
     }
   };
 
   return (
-    <authContext.Provider value={{ user, isAuthenticated, signUp, login, logout }}>
+    <authContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
       {children}
     </authContext.Provider>
   );
