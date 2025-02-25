@@ -1,7 +1,10 @@
-import auth from '@react-native-firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { setDoc, doc, getDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import { createContext, useEffect } from 'react';
+import { db } from '../firebaseConfig';
+import { auth } from '../firebaseConfig';
 
 export const authContext = createContext();
 
@@ -10,11 +13,16 @@ export const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
 
   useEffect(() => {
-    // on auth state changed
-
-    // setTimeout(() => {
-      setIsAuthenticated(false);
-    // }, 3000);
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if(user){
+        setIsAuthenticated(true);
+        setUser(user);
+      }else{
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    });
+    return unsub;
   }, []);
 
   // Sign Up New User
@@ -36,11 +44,21 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   // Logout User
-  const register = async (email, password) => {
+  const register = async (email, password, username) => {
     try {
-    
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("response.user: ", response?.user);
+
+      await setDoc(doc(db, "users", response?.user?.uid),{
+        username,
+        userId: response?.user?.uid
+      });
+      return {sucess: true, data: response?.user};
     } catch (e) {
-    
+      let msg = e.message;
+      if(msg.includes("(auth/invalid-email)")) msg = "Invalid Email";
+      if(msg.includes("(auth/weak-password)")) msg = "Password should be at least 6 characters";
+      return {sucess: false, msg};
     }
   };
 

@@ -6,23 +6,33 @@ import { Feather, Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/loading';
 import CustomKeyboardView from '../components/CustomKeyboardView';
+import { useAuth } from '../context/authContext';
 
 
 export default function signUp() {
   const router = useRouter();
+  const {register} = useAuth();
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const usernameRef = useRef("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!emailRef.current || !passwordRef.current || !usernameRef.current) {
       Alert.alert('Sign Up', 'Please fill in all fields!');
       return;
     }
 
-    // login process
+    setLoading(true);
+
+    let response = await register(emailRef.current, passwordRef.current, usernameRef.current);
+    setLoading(false);
+
+    console.log("got result: ", response);
+    if(!response.success){
+      Alert.alert('Sign Up', response.msg);
+    }
   }
 
   return (
