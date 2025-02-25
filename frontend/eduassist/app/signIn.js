@@ -5,11 +5,12 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/loading';
+import CustomKeyboardView from '../components/CustomKeyboardView';
 
 
 export default function signIn() {
   const router = useRouter();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -24,7 +25,7 @@ export default function signIn() {
   }
 
   return (
-    <View className='flex-1'>
+    <CustomKeyboardView>
       <StatusBar style='dark' />
       <View style={{paddingTop: hp(30), paddingHorizontal: wp(5)}} className='flex-1 gap-12'>
         <Text style={{fontSize: hp(4)}} className='font-bold tracking-wider text-center text-neutral-800'>Welcome Back to EduAssist</Text>
@@ -56,17 +57,17 @@ export default function signIn() {
 
           {/* submit button */}
           <View>
-            {/* {
+            {
               loading? (
                 <View className='flex-row justify-center'>
-                  <Loading size={hp(8)} />
+                  <Loading size={hp(5)} />
                 </View>
-              ):( */}
+              ):(
                   <TouchableOpacity onPress={handleLogin} style={{height: hp(6.5)}} className='bg-red-600 items-center justify-center rounded-xl'>
                     <Text style={{fontSize: hp(2.7)}} className='font-bold text-white tracking-wider'>Sign In</Text>
                   </TouchableOpacity>
-              {/* )
-            } */}
+              )
+            } 
           </View>
 
           {/* sign up text */}
@@ -79,6 +80,6 @@ export default function signIn() {
 
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   )
 }
