@@ -17,14 +17,12 @@ import { db } from '../firebaseConfig';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'expo-router';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ route,navigation }) => {
   const router = useRouter();
   const { user } = useAuth();
   const [classes, setClasses] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [joinedClasses, setJoinedClasses] = useState([]);
-  const [availableClasses, setAvailableClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(true);
   const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
 
@@ -108,10 +106,7 @@ const fetchAnnouncements = async () => {
 const renderClassItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.classCard}
-      onPress={() => router.push({
-        pathname: '/classDetails',
-        params: { classId: item.id }
-      })}
+      onPress={() => navigation.navigate("ClassScreen", { classId: item.id, className: item.name })}
     >
       <Image 
         source={require('../assets/images/class-avatar.png')} 

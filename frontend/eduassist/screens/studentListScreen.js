@@ -51,7 +51,7 @@ const StudentsListScreen = ({ route, navigation }) => {
           const studentsQuery = query(
             collection(db, 'students'),
             where('classId', '==', classId),
-            // where('teacherId', '==', user.uid)
+            // where('teacherId', '==', user.uid) - show students in that not just those created by this teacher.
           );
           
           const studentsSnapshot = await getDocs(studentsQuery);
