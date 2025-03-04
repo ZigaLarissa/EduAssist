@@ -1,19 +1,28 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
-import { useAuth } from '../../context/authContext'
+import { NavigationContainer } from '@react-navigation/native'
+import { StudentsListScreen } from "../../screens/studentListScreen"
+import { StudentsFormScreen } from "../../screens/studentFormScreen"
+import { ClassesScreen } from "../../screens/ClassesScreen"
+import { HomeScreen } from "../../screens/HomeScreen"
+import { AnnouncementFormScreen } from "../../screens/AnnouncementFormScreen"
+import { StatusBar } from 'expo-status-bar'
+import { createStackNavigator } from '@react-navigation/stack'
+
+
+const Stack = createStackNavigator()
 
 export default function Home() {
-  const {logout, user} = useAuth();
-  const handleLogout = async () => {
-    await logout();
-  }
-  console.log("user data: ", user)
   return (
-    <View>
-      <Text>Home</Text>
-      <Pressable onPress={handleLogout}>
-        <Text>Sign Out</Text>
-      </Pressable>
-    </View>
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="AnnouncementFormScreen" component={AnnouncementFormScreen} />
+        <Stack.Screen name="StudentsListScreen" component={StudentsListScreen} />
+        <Stack.Screen name="StudentsFormScreen" component={StudentsFormScreen} />
+        <Stack.Screen name="ClassesScreen" component={ClassesScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }

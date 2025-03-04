@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Slot, useRouter, useSegments } from 'expo-router';
 import '../global.css';
 import { AuthContextProvider, useAuth } from '../context/authContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 const MainLayout = () => {
@@ -28,8 +29,10 @@ const MainLayout = () => {
 
 export default function RootLayout() {
   return (
-    <AuthContextProvider>
-      <MainLayout />
-    </AuthContextProvider>
+    <SafeAreaProvider>
+      <AuthContextProvider>
+        <MainLayout />
+      </AuthContextProvider>
+    </SafeAreaProvider>
   )
 }
