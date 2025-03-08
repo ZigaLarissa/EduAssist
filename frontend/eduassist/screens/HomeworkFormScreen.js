@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     padding: wp('1%'),
   },
   sendButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#4caf50',
     borderRadius: wp('3%'),
     padding: wp('4%'),
     alignItems: 'center',

@@ -1,4 +1,3 @@
-// firestoreService.js
 import { 
     collection, 
     addDoc, 

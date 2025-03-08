@@ -140,9 +140,6 @@ const ClassesScreen = ({ navigation }) => {
       <ScrollView style={styles.scrollView}>
         {/* Header */}
         <View style={styles.header}>
-          {/* <TouchableOpacity style={styles.menuButton}>
-            <Text style={styles.menuButtonText}>☰</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.menuButton}>
             <Text style={styles.menuButtonText}>←</Text>
           </TouchableOpacity>

@@ -237,7 +237,10 @@ const renderClassItem = ({ item }) => (
             <Text style={styles.tabLabel}>Resources</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.tabItem}>
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('ChatListScreen')}
+          >
             <Octicons name="comment-discussion" size={24} color="#666" />
             <Text style={styles.tabLabel}>Chats</Text>
           </TouchableOpacity>

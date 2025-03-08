@@ -204,32 +204,6 @@ const StudentsFormScreen = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        
-        {/* Bottom Navigation */}
-        <View style={styles.tabBar}>
-                <TouchableOpacity style={styles.tabItem}>
-                    <Octicons name="home" size={24} color="#666" />
-                    <Text style={styles.tabLabel}>Home</Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity style={styles.tabItem}>
-                    <Feather name="folder" size={24} color="#666" />
-                    <Text style={styles.tabLabel}>Resources</Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity style={styles.tabItem}>
-                    <Octicons name="comment-discussion" size={24} color="#666" />
-                    <Text style={styles.tabLabel}>Chats</Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity
-                    style={[styles.tabItem, styles.activeTab]}
-                    onPress={() => navigation.navigate('StudentsListScreen')}
-                    >
-                    <Octicons name="gear" size={24} color="#e74c3c" />
-                    <Text style={[styles.tabLabel, styles.activeTabLabel]}>Settings</Text>
-                  </TouchableOpacity>
-              </View>
       </SafeAreaView>
     );
   };

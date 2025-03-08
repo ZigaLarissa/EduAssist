@@ -10,6 +10,9 @@ import { ClassScreen } from "../../screens/ClassScreen"
 import { HomeworkFormScreen } from '../../screens/HomeworkFormScreen'
 import { StatusBar } from 'expo-status-bar'
 import { createStackNavigator } from '@react-navigation/stack'
+import { ChatListScreen } from '../../screens/ChatListScreen'
+import { ChatScreen } from '../../screens/ChatScreen'
+import { NewChatScreen } from '../../screens/NewChatScreen'
 
 
 const Stack = createStackNavigator()
@@ -26,6 +29,9 @@ export default function Home() {
         <Stack.Screen name="StudentsFormScreen" component={StudentsFormScreen} />
         <Stack.Screen name="ClassesScreen" component={ClassesScreen} />
         <Stack.Screen name="HomeworkFormScreen" component={HomeworkFormScreen} />
+        <Stack.Screen name="ChatListScreen" component={ChatListScreen} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="NewChatScreen" component={NewChatScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

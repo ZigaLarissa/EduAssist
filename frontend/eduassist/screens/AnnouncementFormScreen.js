@@ -308,7 +308,7 @@ const AnnouncementFormScreen = ({ navigation }) => {
             {loading ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text style={styles.sendButtonText}>Send</Text>
+              <Text style={styles.sendButtonText}>Send Announcement</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     padding: wp('1%'),
   },
   sendButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#4caf50',
     borderRadius: wp('3%'),
     padding: wp('4%'),
     alignItems: 'center',

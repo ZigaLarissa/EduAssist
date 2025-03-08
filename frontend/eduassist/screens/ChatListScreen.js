@@ -10,8 +10,11 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { auth, firestore } from '../firebase/config';
+import { auth, db } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
+import ChatService from '../context/chatService';
+import { Feather, Octicons } from '@expo/vector-icons';
+
 
 const ChatListScreen = () => {
   const [chats, setChats] = useState([]);
@@ -19,32 +22,13 @@ const ChatListScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const currentUserId = auth.currentUser?.uid;
-    if (!currentUserId) return;
-
-    const chatsRef = collection(firestore, 'chats');
-    const q = query(
-      chatsRef,
-      // Filter chats where the current user is a participant
-      // You might need to adjust this query based on your data structure
-      orderBy('lastMessageTime', 'desc')
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const chatsList = [];
-      querySnapshot.forEach((doc) => {
-        const chatData = doc.data();
-        // Only include chats where the current user is a participant
-        if (chatData.participants && chatData.participants.includes(currentUserId)) {
-          chatsList.push({
-            id: doc.id,
-            ...chatData,
-          });
-        }
-      });
+    console.log("Setting up shat listener")
+    // use the service to get chats
+    const unsubscribe = ChatService.getUserChats((chatsList) => {
+      console.log("chats received: ", chatsList.length)
       setChats(chatsList);
       setLoading(false);
-    });
+    })
 
     return () => unsubscribe();
   }, []);
@@ -65,10 +49,9 @@ const ChatListScreen = () => {
         style={styles.chatItem}
         onPress={() => navigation.navigate('ChatScreen', { chatId: item.id, recipient: otherParticipant })}
       >
-        <Image 
-          source={{ uri: otherParticipant.photoURL || 'https://via.placeholder.com/50' }} 
-          style={styles.avatar} 
-        />
+        <View style={styles.avatar} >
+          <Octicons name="feed-person" size={32} color="#d32f2f" />
+        </View>
         <View style={styles.chatInfo}>
           <View style={styles.chatHeader}>
             <Text style={styles.teacherName}>{otherParticipant.displayName || 'User'}</Text>
@@ -95,28 +78,63 @@ const ChatListScreen = () => {
         <View style={styles.loadingContainer}>
           <Text>Loading chats...</Text>
         </View>
+      ) : chats.length === 0 ?(
+        <View style={styles.loadingContainer}>
+          <Text>No chats yet. Start a conversation!</Text>
+          <TouchableOpacity 
+            style={styles.startChatButton}
+            onPress={() => navigation.navigate('NewChatScreen')}
+          >
+            <Text style={styles.startChatButtonText}>Start New Chat</Text>
+          </TouchableOpacity>
+        </View>
       ) : (
-        <FlatList
+        <View style={styles.container}>
+          <FlatList
           data={chats}
           renderItem={renderChatItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.chatList}
         />
+
+        <TouchableOpacity 
+            style={styles.addButton}
+            onPress={() => navigation.navigate('NewChatScreen')}
+          >
+            <Feather name="plus" size={wp('5%')} color="white" />
+        </TouchableOpacity>
+        </View>
       )}
       
       <View style={styles.tabBar}>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabText}>Resources</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.tabItem, styles.activeTab]}>
-          <Text style={[styles.tabText, styles.activeTabText]}>Chats</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Text style={styles.tabText}>Settings</Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.tabItem}>
+            <Octicons name="home" size={24} color="#666" />
+            <Text style={styles.tabLabel}>Home</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('HomeworkFormScreen')}
+          >
+            <Feather name="folder" size={24} color="#666" />
+            <Text style={styles.tabLabel}>Resources</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.tabItem, styles.activeTab]}
+            onPress={() => navigation.navigate('ChatListScreen')}
+          >
+            <Octicons name="comment-discussion" size={24} color="#e74c3c" />
+            <Text style={[styles.tabLabel, styles.activeTabLabel]}>Chats</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('StudentsListScreen')}
+            >
+            <Octicons name="gear" size={24} color="#666" />
+            <Text style={styles.tabLabel}>Settings</Text>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -129,10 +147,30 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: wp('4%'),
-    height: hp('7%'),
+    paddingHorizontal: wp('5%'),
+    paddingBottom: hp('1%'),
+    paddingVertical: hp('5%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
     backgroundColor: '#d32f2f',
+  },
+  addButton: {
+    position: 'bottom',
+    marginBottom: '5%',
+    marginLeft: '85%',
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: '#d32f2f',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
   backButton: {
     fontSize: wp('6%'),
@@ -150,11 +188,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chatList: {
-    paddingVertical: hp('1%'),
   },
   chatItem: {
     flexDirection: 'row',
-    padding: wp('3%'),
+    padding: wp('2%'),
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
     backgroundColor: 'white',
@@ -163,7 +200,8 @@ const styles = StyleSheet.create({
     width: wp('12%'),
     height: wp('12%'),
     borderRadius: wp('6%'),
-    marginRight: wp('3%'),
+    marginRight: wp('1%'),
+    paddingVertical: hp('1%'),
   },
   chatInfo: {
     flex: 1,
@@ -188,10 +226,10 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    height: hp('8%'),
+    backgroundColor: '#fff',
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-    backgroundColor: 'white',
+    borderTopColor: '#eee',
+    height: hp('8%'),
   },
   tabItem: {
     flex: 1,
@@ -200,13 +238,15 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#d32f2f',
+    borderTopColor: '#e74c3c',
   },
-  tabText: {
-    fontSize: wp('3%'),
+  tabLabel: {
+    fontSize: wp('3.2%'),
+    marginTop: hp('0.5%'),
+    color: '#999',
   },
-  activeTabText: {
-    color: '#d32f2f',
+  activeTabLabel: {
+    color: '#e74c3c',
   },
 });
 
