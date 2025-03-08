@@ -153,19 +153,11 @@ const ClassScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
-            <TouchableOpacity>
-                <Feather name="menu" size={wp('6%')} color="#000" />
-            </TouchableOpacity>
-            <View style={styles.headerRight}>
-                <TouchableOpacity style={styles.iconButton}>
-                    <Feather name="bell" size={wp('6%')} color="#000" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.avatarContainer}>
-                    <View style={styles.avatar}>
-                        <Feather name="user" size={wp('5%')} color="#fff" />
-                    </View>
-                </TouchableOpacity>
-            </View>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Feather name="arrow-left" size={wp('6%')} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{className} - <Text style={styles.redText}>Resources</Text></Text>
+          <View style={styles.placeholderRight} />
         </View>
 
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -285,12 +277,18 @@ const ClassScreen = ({ route, navigation }) => {
       
 
       <View style={styles.tabBar}>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity
+          style={styles.tabItem}
+          onPress={() => navigation.navigate('HomeScreen')}
+        >
             <Octicons name="home" size={24} color="#666" />
             <Text style={styles.tabLabel}>Home</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={[styles.tabItem, styles.activeTab]}>
+          <TouchableOpacity 
+            style={[styles.tabItem, styles.activeTab]}
+            onPress={() => navigation.navigate('ClassScreen')}
+          >
             <Feather name="folder" size={24} color="#e74c3c" />
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Resources</Text>
           </TouchableOpacity>
@@ -303,7 +301,7 @@ const ClassScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.tabItem}
             onPress={() => navigation.navigate('StudentsListScreen')}
-            >
+          >
             <Octicons name="gear" size={24} color="#666" />
             <Text style={styles.tabLabel}>Settings</Text>
           </TouchableOpacity>
@@ -319,31 +317,26 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: wp('5%'),
+    justifyContent: 'space-between',
+    paddingHorizontal: wp('5%'),
+    paddingVertical: hp('2%'),
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  backButton: {
+    padding: wp('2%'),
   },
-  iconButton: {
-    marginRight: wp('3%'),
+  headerTitle: {
+    fontSize: wp('5%'),
+    fontWeight: 'bold',
   },
-  avatarContainer: {
-    borderRadius: wp('6%'),
-    overflow: 'hidden',
+  redText: {
+    color: '#e74c3c',
   },
-  avatar: {
+  placeholderRight: {
     width: wp('10%'),
-    height: wp('10%'),
-    borderRadius: wp('5%'),
-    backgroundColor: '#e74c3c',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   container: {
     flex: 1,

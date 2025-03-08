@@ -112,14 +112,10 @@ const StudentsFormScreen = ({ route, navigation }) => {
           {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-              <Text style={styles.backButtonText}>←</Text>
+              <Feather name="arrow-left" size={wp('6%')} color="#000" />
             </TouchableOpacity>
-            <View style={styles.bellContainer}>
-              <Octicons name="bell" style={styles.bellIcon} />
-            </View>
-            <View style={styles.chatContainer}>
-              <Image source={require('../assets/images/logo-icon.png')} style={styles.chatIcon} />
-            </View>
+            <Text style={styles.headerTitle}>Add <Text style={styles.redText}>A New Student</Text></Text>
+          <View style={styles.placeholderRight} />
           </View>
           
           {/* <TouchableOpacity style={styles.classButton}>
@@ -249,51 +245,27 @@ const StudentsFormScreen = ({ route, navigation }) => {
     },
     header: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
       alignItems: 'center',
+      justifyContent: 'space-between',
       paddingHorizontal: wp('5%'),
-      paddingBottom: hp('1%'),
-      paddingVertical: hp('5%'),
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
-      backgroundColor: 'white',
+      paddingTop: hp('5%'),
+      paddingBottom: hp('2%'),
+      backgroundColor: '#fff',
+      borderBottomWidth: 1,
+      borderBottomColor: '#eee',
     },
     backButton: {
       padding: wp('2%'),
     },
-    backButtonText: {
-      fontSize: wp('6%'),
+    headerTitle: {
+      fontSize: wp('5%'),
       fontWeight: 'bold',
     },
-    menuButton: {
-      padding: wp('2%'),
+    redText: {
+      color: '#e74c3c',
     },
-    menuButtonText: {
-      fontSize: wp('6%'),
-      fontWeight: 'bold',
-    },
-    bellContainer: {
-      marginLeft: 'auto',
-      padding: wp('2%'),
-    },
-    bellIcon: {
-      width: wp('6%'),
-      height: wp('6%'),
-      fontSize: wp('6%'),
-    },
-    chatContainer: {
-      backgroundColor: '#e74c3c',
-      borderRadius: wp('5%'),
-      padding: wp('2%'),
-      marginLeft: wp('2%'),
-    },
-    chatIcon: {
-      width: wp('6%'),
-      height: wp('6%'),
-      tintColor: 'white',
+    placeholderRight: {
+      width: wp('10%'),
     },
     classButton: {
       flexDirection: 'row',

@@ -20,7 +20,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useRouter } from 'expo-router';
 
-const AnnouncementFormScreen = () => {
+const AnnouncementFormScreen = ({ navigation }) => {
   const router = useRouter();
   const { user } = useAuth();
   const [title, setTitle] = useState('');
@@ -80,14 +80,18 @@ const AnnouncementFormScreen = () => {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.8,
     });
 
-    if (!result.canceled) {
+    console.log("Image Picker Result: ", result);
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
       setImage(result.assets[0].uri);
+    } else {
+      console.log("Image picker was canceled or failed.");
     }
   };
 
@@ -119,12 +123,49 @@ const AnnouncementFormScreen = () => {
       let imageUrl = null;
       
       // Upload image if available
+      // if (image) {
+      //   const response = await fetch(image);
+      //   const blob = await response.blob();
+      //   const storageRef = ref(storage, `announcements/${Date.now()}`);
+      //   await uploadBytes(storageRef, blob);
+      //   imageUrl = await getDownloadURL(storageRef);
+      // }
+
       if (image) {
-        const response = await fetch(image);
-        const blob = await response.blob();
-        const storageRef = ref(storage, `announcements/${Date.now()}`);
-        await uploadBytes(storageRef, blob);
-        imageUrl = await getDownloadURL(storageRef);
+        try {
+          console.log("Starting image upload process");
+          console.log("Image URI:", image);
+          
+          // Check if storage is initialized
+          console.log("Storage object:", storage);
+          
+          const response = await fetch(image);
+          console.log("Fetch response status:", response.status);
+          
+          const blob = await response.blob();
+          console.log("Blob created successfully, size:", blob.size);
+          
+          // Create storage reference with more unique path
+          const imagePath = `announcements/${user.uid}_${Date.now()}`;
+          console.log("Creating storage reference at path:", imagePath);
+          const storageRef = ref(storage, imagePath);
+          console.log("Storage reference created:", storageRef);
+          
+          // Upload with explicit metadata
+          const metadata = {
+            contentType: 'image/jpeg',
+          };
+          
+          const uploadResult = await uploadBytes(storageRef, blob, metadata);
+          console.log("Upload successful, result:", uploadResult);
+          
+          imageUrl = await getDownloadURL(uploadResult.ref);
+          console.log("Download URL obtained:", imageUrl);
+        } catch (error) {
+          console.error("Detailed upload error:", error);
+          // Continue without the image
+          console.log("Continuing announcement creation without image");
+        }
       }
       
       // Create the announcement
@@ -153,7 +194,7 @@ const AnnouncementFormScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" size={wp('6%')} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Send <Text style={styles.redText}>Announcement</Text></Text>

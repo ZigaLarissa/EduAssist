@@ -98,20 +98,25 @@ const StudentsListScreen = ({ route, navigation }) => {
     
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.menuButton}>
-              <Text style={styles.menuButtonText}>☰</Text>
-            </TouchableOpacity>
-            <View style={styles.bellContainer}>
-              <Octicons name="bell" style={styles.bellIcon} />
-            </View>
-            <View style={styles.chatContainer}>
-              <Image source={require('../assets/images/logo-icon.png')} style={styles.chatIcon} />
-            </View>
+
+        {/* Header */}
+        <View style={styles.header}>
+              <TouchableOpacity>
+                <Feather name="menu" size={wp('6%')} color="#000" />
+              </TouchableOpacity>
+              <View style={styles.headerRight}>
+                <TouchableOpacity style={styles.iconButton}>
+                  <Feather name="bell" size={wp('6%')} color="#000" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.avatarContainer}>
+                  <View style={styles.avatar}>
+                    <Feather name="user" size={wp('5%')} color="#fff" />
+                  </View>
+                </TouchableOpacity>
+              </View>
           </View>
-          
+
+        <ScrollView style={styles.scrollView}>
           {/* Class Button */}
           <TouchableOpacity style={styles.classButton}>
             <Text style={styles.classButtonText}>Current Class:</Text>
@@ -203,7 +208,10 @@ const StudentsListScreen = ({ route, navigation }) => {
             <Text style={styles.tabLabel}>Home</Text>
           </TouchableOpacity>
                   
-          <TouchableOpacity style={styles.tabItem}>
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('HomeworkFormScreen')}
+          >
             <Feather name="folder" size={24} color="#666" />
             <Text style={styles.tabLabel}>Resources</Text>
           </TouchableOpacity>
@@ -238,49 +246,30 @@ const StudentsListScreen = ({ route, navigation }) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingHorizontal: wp('5%'),
-      paddingBottom: hp('1%'),
-      paddingVertical: hp('5%'),
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
-      backgroundColor: 'white',
+      padding: wp('5%'),
+      backgroundColor: '#fff',
+      borderBottomWidth: 1,
+      borderBottomColor: '#eee',
+      paddingTop: hp('5%')
     },
-    backButton: {
-      padding: wp('2%'),
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
-    backButtonText: {
-      fontSize: wp('6%'),
-      fontWeight: 'bold',
+    iconButton: {
+      marginRight: wp('3%'),
     },
-    menuButton: {
-      padding: wp('2%'),
+    avatarContainer: {
+      borderRadius: wp('6%'),
+      overflow: 'hidden',
     },
-    menuButtonText: {
-      fontSize: wp('6%'),
-      fontWeight: 'bold',
-    },
-    bellContainer: {
-      marginLeft: 'auto',
-      padding: wp('2%'),
-    },
-    bellIcon: {
-      width: wp('6%'),
-      height: wp('6%'),
-      fontSize: wp('6%'),
-    },
-    chatContainer: {
-      backgroundColor: '#e74c3c',
+    avatar: {
+      width: wp('10%'),
+      height: wp('10%'),
       borderRadius: wp('5%'),
-      padding: wp('2%'),
-      marginLeft: wp('2%'),
-    },
-    chatIcon: {
-      width: wp('6%'),
-      height: wp('6%'),
-      tintColor: 'white',
+      backgroundColor: '#e74c3c',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     classButton: {
       flexDirection: 'row',

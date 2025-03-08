@@ -229,7 +229,10 @@ const renderClassItem = ({ item }) => (
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Home</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.tabItem}>
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('HomeworkFormScreen')}
+          >
             <Feather name="folder" size={24} color="#666" />
             <Text style={styles.tabLabel}>Resources</Text>
           </TouchableOpacity>

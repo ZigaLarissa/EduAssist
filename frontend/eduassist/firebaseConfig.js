@@ -9,6 +9,7 @@ import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore, collection } from "firebase/firestore";
+import { getStorage } from "firebase/storage"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdo86vcKQWWHgEvh4HZJk4V1A1IoHRlNI",
@@ -33,3 +34,5 @@ export const db = getFirestore(app);
 
 export const usersRef = collection(db, "users");
 export const roomsRef = collection(db, "rooms");
+
+export const storage = getStorage(app);
