@@ -214,7 +214,9 @@ const ClassScreen = ({ route, navigation }) => {
             </View>
           ) : (
             homeworks.map(homework => (
-              <View key={homework.id} style={styles.announcementCard}>
+              <TouchableOpacity key={homework.id} style={styles.announcementCard}
+                onPress={() => navigation.navigate('HomeworkViewScreen', { assignmentId : homework.id})}
+              >
                 {homework.imageUrl && (
                   <Image 
                     source={{ uri: homework.imageUrl }} 
@@ -232,7 +234,7 @@ const ClassScreen = ({ route, navigation }) => {
                     {formatDate(homework.createdAt)}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           )}
         </View>
