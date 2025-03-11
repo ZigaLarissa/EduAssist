@@ -44,14 +44,25 @@ pip install -r requirements.txt
 ### Step 4: Run the Mobile App
 Navigate to the mobile app directory and run:
 ```bash
-flutter run
+cd frontend
+cd eduassist
+npm run android
 ```
 
-### Step 5: Run the Recommendation System
+### Step 5: Test the Recommendation System API
 Open and run the Jupyter Notebook to test the recommendation system.
 ```bash
-cd model.ipynb
+cd ..
+cd ..
+python app.py
 ```
+
+## Download the App APK
+Get the latest APK through;
+[EduAssist Android Application APK](https://expo.dev/accounts/larissa_ziga/projects/eduassist/builds/c331cf10-323e-498b-afaf-7e206d0506b3)
+
+## Product Demonstration
+[Watch the application 5 minutes demonstration](https://www.loom.com/share/cba2565100a445c49c7ab5c326f01d36?sid=2f1ba35b-0107-4a2e-9b35-f7d3d7245ed1)
 
 ## Designs
 The design elements for this project include:
