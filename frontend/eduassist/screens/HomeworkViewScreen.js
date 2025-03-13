@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Feather } from '@expo/vector-icons';
+import { Linking } from 'react-native';
 
 
 const HomeworkViewScreen = ({ route }) => {
@@ -27,6 +28,7 @@ const HomeworkViewScreen = ({ route }) => {
   // State variables
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [resourceLoading, setResourceLoading] = useState(false);
 
   // Fetch assignment data from Firebase
   useEffect(() => {
@@ -96,10 +98,84 @@ const HomeworkViewScreen = ({ route }) => {
     }
   };
 
-  // Open external resource if available
-  const openResource = () => {
-    Alert.alert('Opening Resource', 'Redirecting to the online resource...');
-    // You would implement specific resource opening logic here
+  // Open external resource based on model recommendation
+  const openResource = async () => {
+    try {
+      // Show loading state
+      setResourceLoading(true);
+
+      // Get the first classId from the assignment (if available)
+      const classId = assignment.classIds && assignment.classIds.length > 0 
+      ? assignment.classIds[0] // Use the first class ID
+      : null;
+
+      // If we have a classId, fetch the class details to get the grade level
+      if (classId) {
+        try {
+          const classRef = doc(db, 'classes', classId);
+          const classSnapshot = await getDoc(classRef);
+          
+          if (classSnapshot.exists()) {
+            const classData = classSnapshot.data();
+            // Use the name field from the class document as the grade level
+            gradeLevelName = classData.name;
+          }
+        } catch (classError) {
+          console.error('Error fetching class info:', classError);
+          // Continue with default grade level if there's an error
+        }
+      }
+        
+      // Prepare the data to send to your model
+      const assignmentData = {
+        description: assignment.text,
+        grade_level: gradeLevelName,
+      };
+      
+      // The Docker container endpoint
+      const modelEndpoint = 'http://192.168.1.66:8000/recommend';
+      
+      // Make API call to your Docker-hosted model
+      const response = await fetch(modelEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(assignmentData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to get resource recommendation: ${response.status}');
+      }
+      
+      // Parse the response
+      const recommendation = await response.json();
+      console.log("Received recommendation:", recommendation);
+      
+      // Handle the recommendation - could be a URL or other resource information
+      if (recommendation.resource_url) {
+        // Open the URL using Linking from react-native
+        Linking.openURL(recommendation.resource_url);
+
+        // Optionally show additional info about the resource
+        Alert.alert(
+          'Resource Found',
+          `Opening resource for ${recommendation.subject || 'this assignment'} (Grade: ${recommendation.grade_level || gradeLevelName})`,
+          [{ text: 'OK' }]
+        );
+      } else {
+        // Display the recommendation information
+        Alert.alert(
+          'No Resource Available',
+          'No suitable resource was found for this assignment.'
+        );
+      }
+    } catch (error) {
+      console.error('Error getting resource recommendation:', error);
+      Alert.alert('Error', 'Failed to get resource recommendations. Please try again later.');
+    } finally {
+      setResourceLoading(false);
+    }
   };
 
   // Format the due date
@@ -202,9 +278,16 @@ const HomeworkViewScreen = ({ route }) => {
           <TouchableOpacity 
             style={styles.openResourceButton}
             onPress={openResource}
+            disabled={resourceLoading}
           >
-            <Icon name="link" size={wp('5%')} color="#fff" />
-            <Text style={styles.buttonText}>Open Resource</Text>
+            {resourceLoading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <>
+                <Icon name="link" size={wp('5%')} color="#fff" />
+                <Text style={styles.buttonText}>Open Resource</Text>
+              </>
+            )}
           </TouchableOpacity>
           
           <TouchableOpacity 

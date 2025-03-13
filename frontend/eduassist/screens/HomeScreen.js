@@ -115,7 +115,7 @@ const renderClassItem = ({ item }) => (
       />
       <View style={styles.classInfo}>
         <Text style={styles.className}>{item.name}</Text>
-        <Text style={styles.classDescription}>{item.description || 'No description'}</Text>
+        <Text style={styles.classDescription}>{item.description || 'You are a teacher in this class.'}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -149,7 +149,6 @@ const renderClassItem = ({ item }) => (
             <Text style={styles.sectionTitle}>Pick a Class</Text>
             <TouchableOpacity 
               style={styles.addButton}
-            //   onPress={() => router.push('ClassesScreen')}
               onPress={() => navigation.navigate('ClassesScreen')}
             >
               <Feather name="plus" size={wp('5%')} color="#e74c3c" />
