@@ -17,6 +17,7 @@ import { ChatListScreen } from '../../screens/ChatListScreen'
 import { ChatScreen } from '../../screens/ChatScreen'
 import { NewChatScreen } from '../../screens/NewChatScreen'
 import { HomeworkViewScreen } from '../../screens/HomeworkViewScreen'
+import { AnnouncementScreen } from '../../screens/AnnouncementScreen'
 
 
 const Stack = createStackNavigator()
@@ -38,6 +39,7 @@ export default function Home() {
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="NewChatScreen" component={NewChatScreen} />
           <Stack.Screen name="HomeworkViewScreen" component={HomeworkViewScreen} />
+          <Stack.Screen name="AnnouncementScreen" component={AnnouncementScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NavigationIndependentTree>

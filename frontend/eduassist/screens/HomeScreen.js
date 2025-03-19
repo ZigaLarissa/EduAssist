@@ -138,19 +138,6 @@ const renderClassItem = ({ item }) => (
           <Text style={styles.appName}>EduAssist</Text>
         </View>
 
-        {/* <TouchableOpacity>
-          <Feather name="menu" size={wp('6%')} color="#000" />
-        </TouchableOpacity>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Feather name="bell" size={wp('6%')} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.avatarContainer}>
-            <View style={styles.avatar}>
-              <Feather name="user" size={wp('5%')} color="#fff" />
-            </View>
-          </TouchableOpacity>
-        </View> */}
       </View>
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -191,7 +178,6 @@ const renderClassItem = ({ item }) => (
             <Text style={styles.sectionTitle}>Announcements</Text>
             <TouchableOpacity 
               style={styles.addButton}
-            //   onPress={() => router.push('AnnouncementFormScreen')}
               onPress={() => navigation.navigate('AnnouncementFormScreen')}
             >
               <Feather name="plus" size={wp('5%')} color="#d20505" />
@@ -208,7 +194,9 @@ const renderClassItem = ({ item }) => (
             </View>
           ) : (
             announcements.map(announcement => (
-              <View key={announcement.id} style={styles.announcementCard}>
+              <TouchableOpacity key={announcement.id} style={styles.announcementCard}
+                onPress={() => navigation.navigate('AnnouncementScreen', { announcementId : announcement.id})}
+              >
                 {announcement.imageUrl && (
                   <Image 
                     source={{ uri: announcement.imageUrl }} 
@@ -226,7 +214,7 @@ const renderClassItem = ({ item }) => (
                     {formatDate(announcement.createdAt)}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           )}
         </View>
