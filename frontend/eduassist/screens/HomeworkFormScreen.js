@@ -245,7 +245,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
               onPress={pickImage}
               disabled={loading}
             >
-              <Feather name="image" size={wp('5%')} color="#e74c3c" />
+              <Feather name="image" size={wp('5%')} color="#d20505" />
               <Text style={styles.uploadButtonText}>Upload Image</Text>
             </TouchableOpacity>
             
@@ -264,7 +264,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
 
           <Text style={styles.label}>Select Recipients</Text>
           {fetchingClasses ? (
-            <ActivityIndicator size="small" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="small" color="#d20505" style={styles.loader} />
           ) : classes.length === 0 ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyStateText}>
@@ -313,7 +313,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
 
           <Text style={styles.label}>Select Subject</Text>
           {fetchingSubjects ? (
-            <ActivityIndicator size="small" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="small" color="#d20505" style={styles.loader} />
           ) : subjects.length === 0 ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyStateText}>
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   redText: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
   placeholderRight: {
     width: wp('10%'),
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#e74c3c',
+    borderColor: '#d20505',
   },
   checkboxContainer: {
     marginTop: hp('1%'),
@@ -455,19 +455,19 @@ const styles = StyleSheet.create({
     height: wp('4%'),
     borderRadius: wp('1.5%'),
     borderWidth: 2,
-    borderColor: '#e74c3c',
+    borderColor: '#d20505',
     marginRight: wp('1%'),
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkboxSelected: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
   },
   checkboxLabel: {
     fontSize: wp('3%'),
   },
   uploadButtonText: {
-    color: '#e74c3c',
+    color: '#d20505',
     marginLeft: wp('2%'),
     fontSize: wp('4%'),
   },
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%'),
   },
   createClassButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
     borderRadius: wp('3%'),
     paddingVertical: hp('1.5%'),
     paddingHorizontal: wp('5%'),

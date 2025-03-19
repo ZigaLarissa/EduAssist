@@ -108,15 +108,19 @@ const renderClassItem = ({ item }) => (
       style={styles.classCard}
       onPress={() => navigation.navigate("ClassScreen", { classId: item.id, className: item.name })}
     >
-      <Image 
+      {/* <Image 
         source={require('../assets/images/class-avatar.png')} 
         style={styles.classAvatar}
         defaultSource={require('../assets/images/class-avatar.png')}
-      />
+      /> */}
+      <View style={styles.classIconContainer}>
+        <Feather name="users" size={24} color="#d20505" />
+      </View>
       <View style={styles.classInfo}>
         <Text style={styles.className}>{item.name}</Text>
         <Text style={styles.classDescription}>{item.description || 'You are a teacher in this class.'}</Text>
       </View>
+      <Text style={styles.arrowRight}>›</Text>
     </TouchableOpacity>
   );
 
@@ -128,7 +132,13 @@ const renderClassItem = ({ item }) => (
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        {/* App Name & Icon */}
+        <View style={styles.headerCenter}>
+          <Image source={require("../assets/images/icon.png")} style={styles.logo} />
+          <Text style={styles.appName}>EduAssist</Text>
+        </View>
+
+        {/* <TouchableOpacity>
           <Feather name="menu" size={wp('6%')} color="#000" />
         </TouchableOpacity>
         <View style={styles.headerRight}>
@@ -140,7 +150,7 @@ const renderClassItem = ({ item }) => (
               <Feather name="user" size={wp('5%')} color="#fff" />
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -151,12 +161,12 @@ const renderClassItem = ({ item }) => (
               style={styles.addButton}
               onPress={() => navigation.navigate('ClassesScreen')}
             >
-              <Feather name="plus" size={wp('5%')} color="#e74c3c" />
+              <Feather name="plus" size={wp('5%')} color="#d20505" />
             </TouchableOpacity>
           </View>
 
           {loadingClasses ? (
-            <ActivityIndicator size="large" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="large" color="#d20505" style={styles.loader} />
           ) : classes.length === 0 ? (
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
@@ -184,12 +194,12 @@ const renderClassItem = ({ item }) => (
             //   onPress={() => router.push('AnnouncementFormScreen')}
               onPress={() => navigation.navigate('AnnouncementFormScreen')}
             >
-              <Feather name="plus" size={wp('5%')} color="#e74c3c" />
+              <Feather name="plus" size={wp('5%')} color="#d20505" />
             </TouchableOpacity>
           </View>
           
           {loadingAnnouncements ? (
-            <ActivityIndicator size="large" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="large" color="#d20505" style={styles.loader} />
           ) : announcements.length === 0 ? (
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
@@ -224,7 +234,7 @@ const renderClassItem = ({ item }) => (
 
       <View style={styles.tabBar}>
         <TouchableOpacity style={[styles.tabItem, styles.activeTab]}>
-            <Octicons name="home" size={24} color="#e74c3c" />
+            <Octicons name="home" size={24} color="#d20505" />
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Home</Text>
           </TouchableOpacity>
           
@@ -270,6 +280,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
+  headerCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  logo: {
+    width: wp("7%"),
+    height: wp("7%"),
+    marginRight: wp("2%"),
+  },
+  appName: {
+    fontSize: wp("5%"),
+    fontWeight: "bold",
+    color: "#000",
+  },
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -285,7 +309,7 @@ const styles = StyleSheet.create({
     width: wp('10%'),
     height: wp('10%'),
     borderRadius: wp('5%'),
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -315,11 +339,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
   },
   classCard: {
     flexDirection: 'row',
@@ -328,11 +347,11 @@ const styles = StyleSheet.create({
     borderRadius: wp('3%'),
     padding: wp('3%'),
     marginBottom: hp('1.5%'),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
   },
   classAvatar: {
     width: wp('12%'),
@@ -340,32 +359,45 @@ const styles = StyleSheet.create({
     borderRadius: wp('6%'),
     marginRight: wp('3%'),
   },
+  classIconContainer: {
+  backgroundColor: '#fff9f9',
+  padding: wp('3%'),
+  borderRadius: wp('8%'),
+  },
   classInfo: {
     flex: 1,
   },
   className: {
     fontSize: wp('4%'),
     fontWeight: 'bold',
+    paddingLeft: wp('3%'),
   },
   classDescription: {
     fontSize: wp('3.5%'),
     color: '#666',
     marginTop: hp('0.5%'),
+    paddingLeft: wp('3%'),
+  },
+  arrowRight: {
+    fontSize: wp('6%'),
+    fontWeight: 'bold',
+    color: '#666',
   },
   announcementCard: {
     backgroundColor: '#fff',
     borderRadius: wp('3%'),
     marginBottom: hp('2%'),
-    overflow: 'hidden',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    // overflow: 'hidden',
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
   },
   announcementImage: {
     width: '100%',
     height: hp('20%'),
+    borderRadius: wp('3%'),
   },
   announcementContent: {
     padding: wp('4%'),
@@ -414,7 +446,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#e74c3c',
+    borderTopColor: '#d20505',
   },
   tabLabel: {
     fontSize: wp('3.2%'),
@@ -422,7 +454,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   activeTabLabel: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
   classesList: {
     paddingBottom: hp('1%'),

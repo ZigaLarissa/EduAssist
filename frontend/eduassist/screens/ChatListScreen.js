@@ -69,7 +69,7 @@ const ChatListScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backButton}>←</Text>
+          <Feather name="arrow-left" size={wp('6%')} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chats</Text>
       </View>
@@ -124,7 +124,7 @@ const ChatListScreen = () => {
             style={[styles.tabItem, styles.activeTab]}
             onPress={() => navigation.navigate('ChatListScreen')}
           >
-            <Octicons name="comment-discussion" size={24} color="#e74c3c" />
+            <Octicons name="comment-discussion" size={24} color="#d20505" />
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Chats</Text>
           </TouchableOpacity>
           
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: wp('5%'),
-    paddingBottom: hp('1%'),
-    paddingVertical: hp('5%'),
+    paddingBottom: hp('2%'),
+    paddingVertical: hp('6%'),
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
-    backgroundColor: '#d32f2f',
+    backgroundColor: '#d20505',
   },
   addButton: {
     position: 'bottom',
@@ -163,14 +163,9 @@ const styles = StyleSheet.create({
     width: wp('10%'),
     height: wp('10%'),
     borderRadius: wp('5%'),
-    backgroundColor: '#d32f2f',
+    backgroundColor: '#d20505',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
   },
   backButton: {
     fontSize: wp('6%'),
@@ -197,8 +192,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   avatar: {
-    width: wp('12%'),
-    height: wp('12%'),
+    width: wp('14%'),
+    height: wp('14%'),
     borderRadius: wp('6%'),
     marginRight: wp('1%'),
     paddingVertical: hp('1%'),
@@ -238,7 +233,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#e74c3c',
+    borderTopColor: '#d20505',
   },
   tabLabel: {
     fontSize: wp('3.2%'),
@@ -246,7 +241,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   activeTabLabel: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
 });
 

@@ -11,7 +11,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
 import { db } from '../firebaseConfig';
 import Icon from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -20,15 +19,16 @@ import { Feather } from '@expo/vector-icons';
 import { Linking } from 'react-native';
 
 
-const HomeworkViewScreen = ({ route }) => {
+const HomeworkViewScreen = ({ route, navigation }) => {
   // Get assignment ID from route params
   const { assignmentId } = route.params || {};
-  const navigation = useNavigation();
   
   // State variables
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [resourceLoading, setResourceLoading] = useState(false);
+  const [recommendedResource, setRecommendedResource] = useState(null);
+
 
   // Fetch assignment data from Firebase
   useEffect(() => {
@@ -133,7 +133,7 @@ const HomeworkViewScreen = ({ route }) => {
       };
       
       // The Docker container endpoint
-      const modelEndpoint = 'http://192.168.1.66:8000/recommend';
+      const modelEndpoint = 'http://10.10.11.91:8000/recommend';
       
       // Make API call to your Docker-hosted model
       const response = await fetch(modelEndpoint, {
@@ -155,7 +155,8 @@ const HomeworkViewScreen = ({ route }) => {
       // Handle the recommendation - could be a URL or other resource information
       if (recommendation.resource_url) {
         // Open the URL using Linking from react-native
-        Linking.openURL(recommendation.resource_url);
+        // Linking.openURL(recommendation.resource_url);
+        setRecommendedResource(recommendation.resource_url); 
 
         // Optionally show additional info about the resource
         Alert.alert(
@@ -207,8 +208,7 @@ const HomeworkViewScreen = ({ route }) => {
   if (loading) {
     return (
       <SafeAreaView style={[styles.container, styles.centerContent]}>
-        <ActivityIndicator size="large" color="#E53935" />
-        <Text style={styles.loadingText}>Loading homework...</Text>
+        <ActivityIndicator size="large" color="#d20505" />
       </SafeAreaView>
     );
   }
@@ -216,7 +216,7 @@ const HomeworkViewScreen = ({ route }) => {
   if (!assignment) {
     return (
       <SafeAreaView style={[styles.container, styles.centerContent]}>
-        <Icon name="alert-circle" size={wp('15%')} color="#E53935" />
+        <Icon name="alert-circle" size={wp('15%')} color="#d20505" />
         <Text style={styles.errorText}>Homework not found</Text>
         <TouchableOpacity style={styles.backButtonLarge} onPress={goBack}>
           <Text style={styles.backButtonText}>Go Back</Text>
@@ -227,11 +227,11 @@ const HomeworkViewScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Feather name="arrow-left" size={wp('6%')} color="#000" />
           </TouchableOpacity>
-      </View>
+      </View> */}
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
@@ -289,6 +289,16 @@ const HomeworkViewScreen = ({ route }) => {
               </>
             )}
           </TouchableOpacity>
+
+          {/* Display Recommended Resource Link */}
+          {recommendedResource && (
+            <View style={styles.linkContainer}>
+              <Text style={styles.resourceText}>Recommended Resource:</Text>
+              <TouchableOpacity onPress={() => Linking.openURL(recommendedResource)}>
+                <Text style={styles.resourceLink}>{recommendedResource}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           
           <TouchableOpacity 
             style={styles.markAsDoneButton}
@@ -296,9 +306,9 @@ const HomeworkViewScreen = ({ route }) => {
           >
             <View style={styles.checkboxContainer}>
               {assignment.completed ? (
-                <MaterialIcons name="check-box" size={wp('5%')} color="#E53935" />
+                <MaterialIcons name="check-box" size={wp('5%')} color="#d20505" />
               ) : (
-                <MaterialIcons name="check-box-outline-blank" size={wp('5%')} color="#E53935" />
+                <MaterialIcons name="check-box-outline-blank" size={wp('5%')} color="#d20505" />
               )}
             </View>
             <Text style={styles.markAsDoneText}>Mark As Done</Text>
@@ -313,6 +323,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    paddingTop: hp('4%'),
   },
   header: {
     flexDirection: 'column',
@@ -362,7 +373,7 @@ const styles = StyleSheet.create({
   },
   DueDate: {
     fontSize: wp('3.5%'),
-    color: '#E53935',
+    color: '#d20505',
     marginTop: hp('0.5%'),
   },
   instructionsContainer: {
@@ -418,7 +429,7 @@ const styles = StyleSheet.create({
     // marginTop: hp('1%'),
   },
   openResourceButton: {
-    backgroundColor: '#E53935',
+    backgroundColor: '#d20505',
     borderRadius: wp('1%'),
     flexDirection: 'row',
     alignItems: 'center',
@@ -432,6 +443,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginLeft: wp('2%'),
   },
+  linkContainer: {
+    marginTop: hp('2%'),
+    padding: wp('4%'),
+    backgroundColor: '#fff',
+    borderRadius: wp('2%'),
+    alignItems: 'center',
+  },
+  resourceText: {
+    fontSize: wp('4%'),
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  resourceLink: {
+    fontSize: wp('3.8%'),
+    color: '#1E88E5',
+    textDecorationLine: 'underline',
+    marginTop: hp('1%'),
+  },  
   markAsDoneButton: {
     flexDirection: 'row',
     alignItems: 'center',

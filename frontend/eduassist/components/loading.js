@@ -6,7 +6,7 @@ import React from 'react'
 export default function Loading({size}) {
   return (
     <View className='flex-1 justify-center items-center'>
-      <ActivityIndicator size={size} color='red' />
+      <ActivityIndicator size={size} color='#d20505' />
     </View>
   );
 }

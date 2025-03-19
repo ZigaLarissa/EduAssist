@@ -103,15 +103,15 @@ const ClassScreen = ({ route, navigation }) => {
 
 
   const renderSubjectItem = ({ item }) => (
-      <TouchableOpacity 
+      <View 
         style={styles.classCard}
         // onPress={() => navigation.navigate("ClassScreen", { classId: item.id, className: item.name })}
       >
         <View style={styles.classInfo}>
           <Text style={styles.className}>{item.name}</Text>
-          {/* <Text style={styles.classDescription}>{item.description || 'No description'}</Text> */}
+          <Text style={styles.classDescription}>{item.description || 'You teach this lesson in this class'}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
   );
 
   const fetchHomework = async () => {
@@ -168,12 +168,12 @@ const ClassScreen = ({ route, navigation }) => {
               style={styles.addButton}
               onPress={() => setModalVisible(true)}
             >
-              <Feather name="plus" size={wp('5%')} color="#e74c3c" />
+              <Feather name="plus" size={wp('5%')} color="#d20505" />
             </TouchableOpacity>
           </View>
 
           {loadingSubjects ? (
-            <ActivityIndicator size="large" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="large" color="#d20505" style={styles.loader} />
           ) : subjects.length === 0 ? (
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
@@ -200,12 +200,12 @@ const ClassScreen = ({ route, navigation }) => {
               style={styles.addButton}
               onPress={() => navigation.navigate('HomeworkFormScreen')}
             >
-              <Feather name="plus" size={wp('5%')} color="#e74c3c" />
+              <Feather name="plus" size={wp('5%')} color="#d20505" />
             </TouchableOpacity>
           </View>
           
           {loadingHomeworks ? (
-            <ActivityIndicator size="large" color="#e74c3c" style={styles.loader} />
+            <ActivityIndicator size="large" color="#d20505" style={styles.loader} />
           ) : homeworks.length === 0 ? (
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
@@ -231,7 +231,7 @@ const ClassScreen = ({ route, navigation }) => {
                       : homework.text}
                   </Text>
                   <Text style={styles.announcementDate}>
-                    {formatDate(homework.createdAt)}
+                    Due: {formatDate(homework.createdAt)}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -291,11 +291,14 @@ const ClassScreen = ({ route, navigation }) => {
             style={[styles.tabItem, styles.activeTab]}
             onPress={() => navigation.navigate('ClassScreen')}
           >
-            <Feather name="folder" size={24} color="#e74c3c" />
+            <Feather name="folder" size={24} color="#d20505" />
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Resources</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.tabItem}>
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('ChatListScreen')}
+          >
             <Octicons name="comment-discussion" size={24} color="#666" />
             <Text style={styles.tabLabel}>Chats</Text>
           </TouchableOpacity>
@@ -335,7 +338,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   redText: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
   placeholderRight: {
     width: wp('10%'),
@@ -366,11 +369,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 1.5,
   },
   classCard: {
     flexDirection: 'row',
@@ -379,11 +382,11 @@ const styles = StyleSheet.create({
     borderRadius: wp('3%'),
     padding: wp('3%'),
     marginBottom: hp('1.5%'),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
   },
   classAvatar: {
     width: wp('12%'),
@@ -407,16 +410,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: wp('3%'),
     marginBottom: hp('2%'),
-    overflow: 'hidden',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    // overflow: 'hidden',
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
   },
   announcementImage: {
     width: '100%',
     height: hp('20%'),
+    borderRadius: wp('2%'),
   },
   announcementContent: {
     padding: wp('4%'),
@@ -433,7 +437,7 @@ const styles = StyleSheet.create({
   },
   announcementDate: {
     fontSize: wp('3.5%'),
-    color: '#888',
+    color: '#d20505',
     alignSelf: 'flex-end',
   },
   loader: {
@@ -497,7 +501,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   createButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
   },
   createButtonText: {
     color: 'white',
@@ -517,7 +521,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#e74c3c',
+    borderTopColor: '#d20505',
   },
   tabLabel: {
     fontSize: wp('3.2%'),
@@ -525,7 +529,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   activeTabLabel: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
   classesList: {
     paddingBottom: hp('1%'),

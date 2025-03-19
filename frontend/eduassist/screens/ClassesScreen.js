@@ -139,11 +139,12 @@ const ClassesScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         {/* Header */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.menuButton}>
             <Text style={styles.menuButtonText}>←</Text>
           </TouchableOpacity>
-        </View>
+          
+        </View> */}
         
         {/* Tabs */}
         <View style={styles.tabs}>
@@ -172,8 +173,8 @@ const ClassesScreen = ({ navigation }) => {
         {/* Loading Indicator */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#e74c3c" />
-            <Text style={styles.loadingText}>Loading classes...</Text>
+            <ActivityIndicator size="large" color="#d20505" />
+            {/* <Text style={styles.loadingText}>Loading classes...</Text> */}
           </View>
         )}
         
@@ -194,7 +195,7 @@ const ClassesScreen = ({ navigation }) => {
                   onPress={() => handleSelectClass(classItem)}
                 >
                   <View style={styles.classIconContainer}>
-                    <Feather name="users" size={24} color="#e74c3c" />
+                    <Feather name="users" size={24} color="#d20505" />
                   </View>
                   <View style={styles.classInfo}>
                     <Text style={styles.className}>{classItem.name}</Text>
@@ -282,17 +283,26 @@ const ClassesScreen = ({ navigation }) => {
       
       {/* Bottom Navigation */}
       <View style={styles.tabBar}>
-              <TouchableOpacity style={styles.tabItem}>
+              <TouchableOpacity 
+                style={styles.tabItem}
+                onPress={() => navigation.navigate('HomeScreen')}
+              >
                   <Octicons name="home" size={24} color="#666" />
                   <Text style={styles.tabLabel}>Home</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.tabItem}>
+                <TouchableOpacity 
+                  style={styles.tabItem}
+                  onPress={() => navigation.navigate('HomeworkFormScreen')}
+                >
                   <Feather name="folder" size={24} color="#666" />
                   <Text style={styles.tabLabel}>Resources</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.tabItem}>
+                <TouchableOpacity 
+                  style={styles.tabItem}
+                  onPress={() => navigation.navigate('ChatListScreen')}
+                >
                   <Octicons name="comment-discussion" size={24} color="#666" />
                   <Text style={styles.tabLabel}>Chats</Text>
                 </TouchableOpacity>
@@ -301,7 +311,7 @@ const ClassesScreen = ({ navigation }) => {
                   style={[styles.tabItem, styles.activeTab]}
                   onPress={() => navigation.navigate('StudentsListScreen')}
                   >
-                  <Octicons name="gear" size={24} color="#e74c3c" />
+                  <Octicons name="gear" size={24} color="#d20505" />
                   <Text style={[styles.tabLabel, styles.activeTabLabel]}>Settings</Text>
                 </TouchableOpacity>
             </View>
@@ -316,6 +326,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    paddingTop: hp('5%'),
   },
   header: {
     flexDirection: 'row',
@@ -356,7 +367,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeTabClass: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
   },
   tabText: {
     fontSize: wp('3.5%'),
@@ -380,7 +391,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   addButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
     borderRadius: wp('3%'),
     padding: wp('3%'),
     alignItems: 'center',
@@ -400,13 +411,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: wp('3%'),
-    padding: wp('4%'),
+    padding: wp('3%'),
     marginBottom: hp('2%'),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 2,
+    // elevation: 2,
   },
   classIconContainer: {
     backgroundColor: '#fff9f9',
@@ -432,7 +443,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   joinButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
     borderRadius: wp('2%'),
     paddingHorizontal: wp('4%'),
     paddingVertical: hp('1%'),
@@ -501,7 +512,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   createButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: '#d20505',
   },
   createButtonText: {
     color: 'white',
@@ -529,11 +540,11 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   activeNavText: {
-    color: '#e74c3c',
+    color: '#d20505',
     fontWeight: 'bold',
   },
   activeNavIcon: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
   tabBar: {
     flexDirection: 'row',
@@ -549,7 +560,7 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#e74c3c',
+    borderTopColor: '#d20505',
   },
   tabLabel: {
     fontSize: wp('3.2%'),
@@ -557,7 +568,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   activeTabLabel: {
-    color: '#e74c3c',
+    color: '#d20505',
   },
 });
 

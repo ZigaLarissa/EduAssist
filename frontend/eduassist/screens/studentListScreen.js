@@ -99,29 +99,12 @@ const StudentsListScreen = ({ route, navigation }) => {
     return (
       <SafeAreaView style={styles.container}>
 
-        {/* Header */}
-        <View style={styles.header}>
-              <TouchableOpacity>
-                <Feather name="menu" size={wp('6%')} color="#000" />
-              </TouchableOpacity>
-              <View style={styles.headerRight}>
-                <TouchableOpacity style={styles.iconButton}>
-                  <Feather name="bell" size={wp('6%')} color="#000" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.avatarContainer}>
-                  <View style={styles.avatar}>
-                    <Feather name="user" size={wp('5%')} color="#fff" />
-                  </View>
-                </TouchableOpacity>
-              </View>
-          </View>
-
         <ScrollView style={styles.scrollView}>
           {/* Class Button */}
-          <TouchableOpacity style={styles.classButton}>
+          <View style={styles.classButton}>
             <Text style={styles.classButtonText}>Current Class:</Text>
             <Text style={styles.classButtonText}>{className}</Text>
-          </TouchableOpacity>
+          </View>
 
           <TouchableOpacity 
             style={styles.classButton} 
@@ -149,30 +132,20 @@ const StudentsListScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             </View>
 
-            {/* Loading Indicator */}
-            {loading && (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#e74c3c" />
-                <Text style={styles.loadingText}>Loading students...</Text>
-              </View>
-            )}
-
             {loading ? (
-                <ActivityIndicator size="large" color="#e74c3c" style={styles.loader} />
+                <ActivityIndicator size="large" color="#d20505" style={styles.loader} />
               ) : students.length === 0 ? (
                 <View style={styles.emptyStateContainer}>
                   <Text style={styles.emptyStateText}>
                     No students to show. Choose a class or/and add students in a class.
                   </Text>
                 </View>
-              ) : (
-                
+              ) : (     
                 students.map((student, index) => (
                   <View key={student.id || index} style={styles.studentCard}>
-                    <Image 
-                      source={require('../assets/images/student-avatar.png')} 
-                      style={styles.studentAvatar} 
-                    />
+                  <View style={styles.classIconContainer}>
+                    <Feather name="user" size={24} color="#d20505" />
+                  </View>
                     <View style={styles.studentInfo}>
                       <Text style={styles.studentName}>{`${student.surname} ${student.lastName}`}</Text>
                       <Text style={styles.studentPosition}>Position: {student.position}</Text>
@@ -216,7 +189,10 @@ const StudentsListScreen = ({ route, navigation }) => {
             <Text style={styles.tabLabel}>Resources</Text>
           </TouchableOpacity>
                   
-          <TouchableOpacity style={styles.tabItem}>
+          <TouchableOpacity 
+            style={styles.tabItem}
+            onPress={() => navigation.navigate('ChatListScreen')}
+          >
             <Octicons name="comment-discussion" size={24} color="#666" />
             <Text style={styles.tabLabel}>Chats</Text>
           </TouchableOpacity>
@@ -225,7 +201,7 @@ const StudentsListScreen = ({ route, navigation }) => {
             style={[styles.tabItem, styles.activeTab]}
             onPress={() => navigation.navigate('StudentsListScreen')}
               >
-            <Octicons name="gear" size={24} color="#e74c3c" />
+            <Octicons name="gear" size={24} color="#d20505" />
             <Text style={[styles.tabLabel, styles.activeTabLabel]}>Settings</Text>
           </TouchableOpacity>
         </View>
@@ -241,17 +217,28 @@ const StudentsListScreen = ({ route, navigation }) => {
     },
     scrollView: {
       flex: 1,
+      paddingTop: hp('5%'),
     },
     header: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: wp('5%'),
-      backgroundColor: '#fff',
-      borderBottomWidth: 1,
-      borderBottomColor: '#eee',
-      paddingTop: hp('5%')
     },
+    // headerCenter: {
+    //   flexDirection: "row",
+    //   alignItems: "center",
+    // },
+    // logo: {
+    //   width: wp("7%"),
+    //   height: wp("7%"),
+    //   marginRight: wp("2%"),
+    // },
+    // appName: {
+    //   fontSize: wp("5%"),
+    //   fontWeight: "bold",
+    //   color: "#000",
+    // },
     headerRight: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -267,7 +254,7 @@ const StudentsListScreen = ({ route, navigation }) => {
       width: wp('10%'),
       height: wp('10%'),
       borderRadius: wp('5%'),
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -275,7 +262,7 @@ const StudentsListScreen = ({ route, navigation }) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       borderRadius: wp('5%'),
       paddingHorizontal: wp('5%'),
       paddingVertical: hp('2%'),
@@ -328,11 +315,11 @@ const StudentsListScreen = ({ route, navigation }) => {
       marginTop: hp('1%'),
     },
     addParentInfoText: {
-      color: '#e74c3c',
+      color: '#d20505',
       fontSize: wp('3.5%'),
     },
     plusIcon: {
-      color: '#e74c3c',
+      color: '#d20505',
       fontSize: wp('5%'),
     },
     saveButton: {
@@ -362,7 +349,7 @@ const StudentsListScreen = ({ route, navigation }) => {
       fontWeight: 'bold',
     },
     addStudentButton: {
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       borderRadius: wp('5%'),
       paddingHorizontal: wp('3%'),
       paddingVertical: hp('1%'),
@@ -394,11 +381,16 @@ const StudentsListScreen = ({ route, navigation }) => {
       borderRadius: wp('3%'),
       padding: wp('3%'),
       marginBottom: hp('1%'),
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
+      // shadowColor: '#000',
+      // shadowOffset: { width: 0, height: 1 },
+      // shadowOpacity: 0.1,
+      // shadowRadius: 2,
+      // elevation: 2,
+    },
+    classIconContainer: {
+      backgroundColor: '#fff9f9',
+      padding: wp('3%'),
+      borderRadius: wp('8%'),
     },
     studentAvatar: {
       width: wp('12%'),
@@ -418,7 +410,7 @@ const StudentsListScreen = ({ route, navigation }) => {
       color: '#666',
     },
     editButton: {
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       width: wp('10%'),
       height: wp('10%'),
       borderRadius: wp('5%'),
@@ -443,7 +435,7 @@ const StudentsListScreen = ({ route, navigation }) => {
     },
     activeTab: {
       borderTopWidth: 2,
-      borderTopColor: '#e74c3c',
+      borderTopColor: '#d20505',
     },
     tabLabel: {
       fontSize: wp('3.2%'),
@@ -451,7 +443,7 @@ const StudentsListScreen = ({ route, navigation }) => {
       color: '#999',
     },
     activeTabLabel: {
-      color: '#e74c3c',
+      color: '#d20505',
     },
   });
   

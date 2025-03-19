@@ -13,7 +13,7 @@ import {
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import ChatService from '../context/chatService';
-import { Octicons } from '@expo/vector-icons';
+import { Octicons, Feather } from '@expo/vector-icons';
 
 
 
@@ -73,7 +73,7 @@ const NewChatScreen = () => {
         onPress={() => startChat(item)}
       >
         <View style={styles.avatar} >
-            <Octicons name="feed-person" size={32} color="#d32f2f" />
+            <Octicons name="feed-person" size={32} color="#d20505" />
         </View>
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{item.displayName}</Text>
@@ -87,7 +87,7 @@ const NewChatScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backButton}>←</Text>
+          <Feather name="arrow-left" size={wp('6%')} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>New Chat</Text>
       </View>
@@ -133,7 +133,7 @@ const NewChatScreen = () => {
 
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#d32f2f" />
+          <ActivityIndicator size="large" color="#d20505" />
         </View>
       ) : (
         <FlatList
@@ -164,9 +164,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: wp('5%'),
-    paddingBottom: hp('1%'),
-    paddingVertical: hp('5%'),
-    backgroundColor: '#d32f2f',
+    paddingBottom: hp('2%'),
+    paddingVertical: hp('6%'),
+    backgroundColor: '#d20505',
   },
   backButton: {
     fontSize: wp('6%'),
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   avatar: {
-    width: wp('12%'),
-    height: wp('12%'),
+    width: wp('14%'),
+    height: wp('14%'),
     borderRadius: wp('6%'),
     marginRight: wp('1%'),
     paddingVertical: hp('1%'),
@@ -265,13 +265,13 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     borderTopWidth: 2,
-    borderTopColor: '#d32f2f',
+    borderTopColor: '#d20505',
   },
   tabText: {
     fontSize: wp('3%'),
   },
   activeTabText: {
-    color: '#d32f2f',
+    color: '#d20505',
   },
 });
 

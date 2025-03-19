@@ -118,12 +118,6 @@ const StudentsFormScreen = ({ route, navigation }) => {
           <View style={styles.placeholderRight} />
           </View>
           
-          {/* <TouchableOpacity style={styles.classButton}>
-            <Text style={styles.classButtonText}>Class</Text>
-            <Text style={styles.classButtonText}>{className}</Text>
-            <Text style={styles.arrowRight}>›</Text>
-          </TouchableOpacity> */}
-          
           {/* Form Fields */}
           <View style={styles.formContainer}>
             {/* Class Button */}
@@ -156,7 +150,6 @@ const StudentsFormScreen = ({ route, navigation }) => {
               value={position}
               onChangeText={setPosition}
               placeholder="Enter position (e.g. 1/25)"
-              keyboardType="numeric"
             />
             
             <Text style={styles.label}>Percentage</Text>
@@ -165,7 +158,6 @@ const StudentsFormScreen = ({ route, navigation }) => {
               value={percentage}
               onChangeText={setPercentage}
               placeholder="Enter percentage"
-              keyboardType="numeric"
             />
             
             <Text style={styles.label}>Parent(s) Info</Text>
@@ -192,10 +184,10 @@ const StudentsFormScreen = ({ route, navigation }) => {
                 keyboardType="email-address"
               />
               
-              <TouchableOpacity style={styles.addParentInfo}>
+              {/* <TouchableOpacity style={styles.addParentInfo}>
                 <Text style={styles.addParentInfoText}>Add more parent/guardian info</Text>
                 <Text style={styles.plusIcon}>⊕</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             
             {/* Save Button */}
@@ -236,7 +228,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
       fontWeight: 'bold',
     },
     redText: {
-      color: '#e74c3c',
+      color: '#d20505',
     },
     placeholderRight: {
       width: wp('10%'),
@@ -245,7 +237,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       borderRadius: wp('5%'),
       paddingHorizontal: wp('5%'),
       paddingVertical: hp('2%'),
@@ -298,11 +290,11 @@ const StudentsFormScreen = ({ route, navigation }) => {
       marginTop: hp('1%'),
     },
     addParentInfoText: {
-      color: '#e74c3c',
+      color: '#d20505',
       fontSize: wp('3.5%'),
     },
     plusIcon: {
-      color: '#e74c3c',
+      color: '#d20505',
       fontSize: wp('5%'),
     },
     saveButton: {
@@ -331,7 +323,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
       fontWeight: 'bold',
     },
     addStudentButton: {
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       borderRadius: wp('5%'),
       paddingHorizontal: wp('3%'),
       paddingVertical: hp('1%'),
@@ -375,7 +367,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
       color: '#666',
     },
     editButton: {
-      backgroundColor: '#e74c3c',
+      backgroundColor: '#d20505',
       width: wp('10%'),
       height: wp('10%'),
       borderRadius: wp('5%'),
@@ -400,7 +392,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
     },
     activeTab: {
       borderTopWidth: 2,
-      borderTopColor: '#e74c3c',
+      borderTopColor: '#d20505',
     },
     tabLabel: {
       fontSize: wp('3.2%'),
@@ -408,7 +400,7 @@ const StudentsFormScreen = ({ route, navigation }) => {
       color: '#999',
     },
     activeTabLabel: {
-      color: '#e74c3c',
+      color: '#d20505',
     },
   });
   
