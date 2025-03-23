@@ -24,7 +24,7 @@ const Stack = createStackNavigator()
 
 export default function Home() {
   return (
-    <NavigationIndependentTree>
+    // <NavigationIndependentTree>
       <NavigationContainer>
         <StatusBar barStyle="dark-content" backgroundColor="#fff" />
         <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
@@ -42,6 +42,6 @@ export default function Home() {
           <Stack.Screen name="AnnouncementScreen" component={AnnouncementScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </NavigationIndependentTree>
+    // </NavigationIndependentTree>
   )
 }

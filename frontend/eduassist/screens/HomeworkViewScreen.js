@@ -133,7 +133,10 @@ const HomeworkViewScreen = ({ route, navigation }) => {
       };
       
       // The Docker container endpoint
-      const modelEndpoint = 'http://10.10.11.91:8000/recommend';
+      // const modelEndpoint = 'http://10.10.11.91:8000/recommend';
+      // const modelEndpoint = 'http://192.168.1.66:8000/recommend';
+      const modelEndpoint = 'http://172.17.27.69:8000/recommend';
+
       
       // Make API call to your Docker-hosted model
       const response = await fetch(modelEndpoint, {

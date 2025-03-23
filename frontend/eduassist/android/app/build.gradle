@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.larissa_ziga.eduassist'
+    namespace "com.larissa_ziga.eduassist" // Change to your namespace
     defaultConfig {
         applicationId 'com.larissa_ziga.eduassist'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -102,6 +102,11 @@ android {
             keyPassword 'android'
         }
     }
+    //new
+    buildFeatures {
+        buildConfig true
+    }
+    //ends here
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
