@@ -133,9 +133,10 @@ const HomeworkViewScreen = ({ route, navigation }) => {
       };
       
       // The Docker container endpoint
-      // const modelEndpoint = 'http://10.10.11.91:8000/recommend';
-      // const modelEndpoint = 'http://192.168.1.66:8000/recommend';
-      const modelEndpoint = 'http://172.17.27.69:8000/recommend';
+      // const modelEndpoint = 'http://10.10.11.91:8000/recommend'; //ACT
+      // const modelEndpoint = 'http://192.168.1.66:8000/recommend'; //Home
+      // const modelEndpoint = 'http://172.17.27.69:8000/recommend'; //ALU Staff
+      const modelEndpoint ="http://172.26.27.153:8000/recommend"; //ALU Student
 
       
       // Make API call to your Docker-hosted model
@@ -230,11 +231,13 @@ const HomeworkViewScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Feather name="arrow-left" size={wp('6%')} color="#000" />
-          </TouchableOpacity>
-      </View> */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Feather name="arrow-left" size={wp('6%')} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Homework <Text style={styles.redText}>Details</Text></Text>
+        <View style={styles.placeholderRight} />
+      </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
@@ -325,20 +328,31 @@ const HomeworkViewScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     paddingTop: hp('4%'),
   },
   header: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: wp('5%'),
-    paddingTop: hp('4%'),
-    paddingBottom: hp('2%'),
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
+    paddingVertical: hp('2%'),
+    // backgroundColor: '#fff',
     borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
   backButton: {
-    paddingTop: wp('6%'),
+    padding: wp('2%'),
+  },
+  headerTitle: {
+    fontSize: wp('5%'),
+    fontWeight: 'bold',
+  },
+  redText: {
+    color: '#d20505',
+  },
+  placeholderRight: {
+    width: wp('10%'),
   },
   scrollContainer: {
     // flex: 1,
@@ -365,7 +379,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     padding: wp('4%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // borderBottomWidth: 1,
     // borderBottomColor: '#eee',
   },
@@ -381,7 +395,7 @@ const styles = StyleSheet.create({
   },
   instructionsContainer: {
     padding: wp('4%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // borderBottomWidth: 1,
     // borderBottomColor: '#eee',
   },
@@ -392,7 +406,7 @@ const styles = StyleSheet.create({
   },
   teacherContainer: {
     padding: wp('4%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // borderBottomWidth: 1,
     // borderBottomColor: '#eee',
   },
@@ -404,7 +418,7 @@ const styles = StyleSheet.create({
   imageHeaderContainer: {
     padding: wp('4%'),
     paddingBottom: wp('2%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   imageHeaderText: {
     fontSize: wp('3.8%'),
@@ -413,7 +427,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: wp('100%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     alignItems: 'center',
     paddingVertical: hp('2%'),
     // borderBottomWidth: 1,
@@ -428,7 +442,7 @@ const styles = StyleSheet.create({
   },
   actionButtonsContainer: {
     padding: wp('4%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // marginTop: hp('1%'),
   },
   openResourceButton: {
@@ -449,7 +463,7 @@ const styles = StyleSheet.create({
   linkContainer: {
     marginTop: hp('2%'),
     padding: wp('4%'),
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: wp('2%'),
     alignItems: 'center',
   },

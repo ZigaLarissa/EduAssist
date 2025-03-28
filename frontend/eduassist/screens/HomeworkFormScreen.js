@@ -208,7 +208,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" size={wp('6%')} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Assing <Text style={styles.redText}>Homework</Text></Text>
+        <Text style={styles.headerTitle}>Assign <Text style={styles.redText}>Homework</Text></Text>
         <View style={styles.placeholderRight} />
       </View>
       
