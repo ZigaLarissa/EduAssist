@@ -14,7 +14,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { db } from '../firebaseConfig';
 import { useAuth } from '../context/authContext';
 import { collection, getDocs, query, where, orderBy, limit, doc, getDoc } from 'firebase/firestore';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 
 const AnnouncementScreen = ({ route, navigation }) => {
   // Get announcement ID from route params
@@ -154,6 +154,14 @@ const AnnouncementScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Feather name="arrow-left" size={wp('6%')} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Homework <Text style={styles.redText}>Details</Text></Text>
+        <View style={styles.placeholderRight} />
+      </View>
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Announcement title and due date */}
         <View style={styles.titleContainer}>
@@ -204,13 +212,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: wp('5%'),
-    paddingTop: hp('4%'),
-    paddingBottom: hp('2%'),
+    paddingVertical: hp('2%'),
+    // backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
   backButton: {
-    paddingTop: wp('6%'),
+    padding: wp('2%'),
+  },
+  headerTitle: {
+    fontSize: wp('5%'),
+    fontWeight: 'bold',
+  },
+  redText: {
+    color: '#d20505',
+  },
+  placeholderRight: {
+    width: wp('10%'),
   },
   backButtonLarge: {
     backgroundColor: '#d20505',

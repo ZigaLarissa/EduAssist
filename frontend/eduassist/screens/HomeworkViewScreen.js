@@ -133,10 +133,7 @@ const HomeworkViewScreen = ({ route, navigation }) => {
       };
       
       // The Docker container endpoint
-      // const modelEndpoint = 'http://10.10.11.91:8000/recommend'; //ACT
-      // const modelEndpoint = 'http://192.168.1.66:8000/recommend'; //Home
-      // const modelEndpoint = 'http://172.17.27.69:8000/recommend'; //ALU Staff
-      const modelEndpoint ="http://172.26.27.153:8000/recommend"; //ALU Student
+      const modelEndpoint ="https://rcrs-image-104267375198.us-central1.run.app/recommend"; //google cloud run
 
       
       // Make API call to your Docker-hosted model
