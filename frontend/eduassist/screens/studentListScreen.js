@@ -63,7 +63,6 @@ const StudentsListScreen = ({ route, navigation }) => {
           });
         } catch (error){
           console.error('Error fetching students: ', error);
-          Alert.alert('Error', 'Failed to load students');
         } finally {
           setLoading(false);
         }

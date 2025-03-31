@@ -158,7 +158,7 @@ const AnnouncementScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" size={wp('6%')} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Homework <Text style={styles.redText}>Details</Text></Text>
+        <Text style={styles.headerTitle}>Announcement <Text style={styles.redText}>Details</Text></Text>
         <View style={styles.placeholderRight} />
       </View>
 
