@@ -98,6 +98,14 @@ export default function signUp() {
           </View>
 
         </View>
+
+        {/* Privacy Plouicy  text */}
+        <View className='flex-row justify-center pt-36'>
+            <Text style={{fontSize: hp(1.4)}} className='font-semibold text-neutral-400'>Before creating an account read </Text>
+            <Pressable onPress={() => router.push('terms')}>
+              <Text style={{fontSize: hp(1.4)}} className='font-semibold text-red-400'>Terms and Conditions</Text>
+            </Pressable>
+        </View>
       </View>
     </CustomKeyboardView>
   )

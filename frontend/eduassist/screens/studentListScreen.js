@@ -18,6 +18,7 @@ import { Octicons } from '@expo/vector-icons';
 import { StudentsFormScreen } from './studentFormScreen';
 import { Feather } from '@expo/vector-icons';
 import { useAuth } from '../context/authContext';
+import { onSnapshot } from 'firebase/firestore';
 
 
 // Students List Screen
@@ -40,32 +41,27 @@ const StudentsListScreen = ({ route, navigation }) => {
       const fetchStudents = async () => {
         try {
           setLoading(true);
-          // Create a query that filters by classId AND teacherId
-          // new
-          if (!classId) {
-            setStudents([]);
-            setLoading(false);
-            return;
-          }
-
+  
           const studentsQuery = query(
             collection(db, 'students'),
-            where('classId', '==', classId),
-            // where('teacherId', '==', user.uid) - show students in that not just those created by this teacher.
+            where('classId', '==', classId)
           );
-          
-          const studentsSnapshot = await getDocs(studentsQuery);
-          const studentsList = studentsSnapshot.docs
-            .map(doc => ({ id: doc.id, ...doc.data() }))
-            .sort((a, b) => {
-              // Extract numeric position values for sorting
-              const posA = parseInt(a.position.split('/')[0]) || 0;
-              const posB = parseInt(b.position.split('/')[0]) || 0;
-              return posA - posB;
-            });
-          
-          setStudents(studentsList);
-        } catch (error) {
+        
+          // Real-time listener
+          const unsubscribe = onSnapshot(studentsQuery, (snapshot) => {
+            const studentsList = snapshot.docs
+              .map(doc => ({ id: doc.id, ...doc.data() }))
+              .sort((a, b) => {
+                // Extract numeric position values for sorting
+                const posA = parseInt(a.position.split('/')[0]) || 0;
+                const posB = parseInt(b.position.split('/')[0]) || 0;
+                return posA - posB;
+              });
+        
+            setStudents(studentsList);
+            setLoading(false);
+          });
+        } catch (error){
           console.error('Error fetching students: ', error);
           Alert.alert('Error', 'Failed to load students');
         } finally {

@@ -270,12 +270,12 @@ const HomeworkFormScreen = ({ route, navigation }) => {
               <Text style={styles.emptyStateText}>
                 No classes available. Please create a class first.
               </Text>
-              <TouchableOpacity 
+              {/* <TouchableOpacity 
                 style={styles.createClassButton}
                 onPress={() => router.push('ClassesScreen')}
               >
                 <Text style={styles.createClassButtonText}>Create Class</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ) : (
             <View style={styles.checkboxContainer}>
@@ -319,12 +319,12 @@ const HomeworkFormScreen = ({ route, navigation }) => {
               <Text style={styles.emptyStateText}>
                 No subjects available. Please create a subject first.
               </Text>
-              <TouchableOpacity 
+              {/* <TouchableOpacity 
                 style={styles.createClassButton}
                 onPress={() => router.push('ClassScreen')}
               >
                 <Text style={styles.createClassButtonText}>Create Subject</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ) : (
             <View style={styles.checkboxContainer}>

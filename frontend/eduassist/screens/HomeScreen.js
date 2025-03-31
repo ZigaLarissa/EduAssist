@@ -16,6 +16,8 @@ import { collection, getDocs, query, where, orderBy, limit } from 'firebase/fire
 import { db } from '../firebaseConfig';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'expo-router';
+import { onSnapshot } from 'firebase/firestore';
+
 
 const HomeScreen = ({ route,navigation }) => {
   const router = useRouter();
@@ -33,32 +35,32 @@ const HomeScreen = ({ route,navigation }) => {
 
 
 
-  const fetchClasses = async () => {
-        try {
-          setLoadingClasses(true);
-          if (!user || !user.uid) return;
+  const fetchClasses = () => {
+    if (!user || !user.uid) return;
   
-          // Get joined classes (classes where the user is in teacherIds)
-          const joinedClassesQuery = query(
-            collection(db, 'classes'),
-            where('teacherIds', 'array-contains', user.uid)
-          );
-          
-          const ClassesSnapshot = await getDocs(joinedClassesQuery);
-          const ClassesList = ClassesSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-          
-          setClasses(ClassesList);
-          
-        } catch (error) {
-          console.error('Error fetching classes: ', error);
-          Alert.alert('Error', 'Failed to load classes');
-        } finally {
-          setLoadingClasses(false);
-        }
-      };
+    setLoadingClasses(true);
+    
+    const joinedClassesQuery = query(
+      collection(db, 'classes'),
+      where('teacherIds', 'array-contains', user.uid)
+    );
+  
+    // Real-time listener
+    const unsubscribe = onSnapshot(joinedClassesQuery, (snapshot) => {
+      const ClassesList = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      setClasses(ClassesList);
+      setLoadingClasses(false);
+    }, (error) => {
+      console.error('Error fetching classes: ', error);
+      setLoadingClasses(false);
+    });
+  
+    return unsubscribe; // Cleanup function to prevent memory leaks
+  };
 
 
 const fetchAnnouncements = async () => {

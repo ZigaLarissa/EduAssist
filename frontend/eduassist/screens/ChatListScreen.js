@@ -85,7 +85,7 @@ const ChatListScreen = () => {
             style={styles.startChatButton}
             onPress={() => navigation.navigate('NewChatScreen')}
           >
-            <Text style={styles.startChatButtonText}>Start New Chat</Text>
+            <Text style={{fontSize: hp(1.6)}} className='font-small text-red-400'>Start New Chat</Text>
           </TouchableOpacity>
         </View>
       ) : (
