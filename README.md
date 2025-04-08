@@ -11,9 +11,6 @@ EduAssist is a mobile application designed to keep parents actively involved in 
 - **Grades & Reports**: Parents can track their child's academic performance.
 - **Past Resources Archive**: Access to past assignments and resources for review.
 
-## GitHub Repository
-[Project Repository](https://github.com/ZigaLarissa/EduAssist)
-
 ## Setup and Installation
 
 ### Prerequisites
@@ -21,7 +18,6 @@ Ensure you have the following installed:
 - Python 3.x
 - pip
 - Virtual environment (optional but recommended)
-- Flutter (for mobile app development)
 
 ### Step 1: Clone the Repository
 ```bash
@@ -54,12 +50,15 @@ Open and run the Jupyter Notebook to test the recommendation system.
 ```bash
 cd ..
 cd ..
+cd model
 python app.py
 ```
 
+Or ChecK the already cloud-hosted API: [Deployed Container](https://rcrs-image-104267375198.us-central1.run.app/docs)
+
 ## Download the App APK
 Get the latest APK through;
-[EduAssist Android Application APK](https://expo.dev/accounts/larissa_ziga/projects/eduassist/builds/f04458eb-de64-46fe-9fe5-3ecc997581b8)
+[EduAssist Android Application APK](https://drive.google.com/file/d/1mxMXjP6gvl86MELf9VsYk1tqc-V9FfFO/view?usp=sharing)
 
 ## Product Demonstration
 [Watch the application 5 minutes demonstration](https://www.loom.com/share/cba2565100a445c49c7ab5c326f01d36?sid=2f1ba35b-0107-4a2e-9b35-f7d3d7245ed1)
