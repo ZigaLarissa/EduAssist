@@ -13,11 +13,11 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, addDoc, getDocs, doc, updateDoc, query, where } from 'firebase/firestore';
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { Octicons } from '@expo/vector-icons';
 import { StudentsFormScreen } from './studentFormScreen';
 import { Feather } from '@expo/vector-icons';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../../context/authContext';
 import { onSnapshot } from 'firebase/firestore';
 
 

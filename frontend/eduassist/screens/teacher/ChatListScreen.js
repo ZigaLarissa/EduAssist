@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '../firebaseConfig';
+import { auth, db } from '../../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
-import ChatService from '../context/chatService';
+import ChatService from '../../context/chatService';
 import { Feather, Octicons } from '@expo/vector-icons';
 
 

@@ -11,8 +11,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { db } from '../firebaseConfig';
-import { useAuth } from '../context/authContext';
+import { db } from '../../firebaseConfig';
+import { useAuth } from '../../context/authContext';
 import { collection, getDocs, query, where, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { Ionicons, Feather } from '@expo/vector-icons';
 

@@ -7,22 +7,29 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 const MainLayout = () => {
-  const {isAuthenticated} = useAuth();
+  const {isAuthenticated, role} = useAuth();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
     // Check if user is authenticated or not
-    if (typeof isAuthenticated === 'undefined') return;
+    if (typeof isAuthenticated === 'undefined' || typeof role === 'undefined') return;
+
     const inApp = segments[0] === '(app)';
+    const inAuth = segments[0] === '(auth)';
+
     if (isAuthenticated && !inApp) {
-      // redirect to home
-      router.replace('home');
-    } else if (isAuthenticated == false) {
+      if (role === 'teacher') {
+        router.replace('/(app)/teacher/home');
+      } else if (role === 'parent') {
+        router.replace('/(app)/parent/home');
+      }
+
+    } else if (!isAuthenticated && !inAuth) {
       // redirect to sign in
-      router.replace('signIn');
+      router.replace('/(auth)/signIn');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, role]);
 
   return <Slot />;
 }

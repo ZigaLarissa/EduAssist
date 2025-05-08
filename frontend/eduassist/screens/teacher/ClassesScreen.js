@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc } from 'firebase/firestore';
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import { Octicons, Feather } from '@expo/vector-icons';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../../context/authContext';
 
 const ClassesScreen = ({ navigation }) => {
   const { user } = useAuth();

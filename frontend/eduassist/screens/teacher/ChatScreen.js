@@ -14,8 +14,8 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../firebaseConfig';
-import ChatService from '../context/chatService';
+import { auth, db } from '../../firebaseConfig';
+import ChatService from '../../context/chatService';
 import { Octicons, Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 
 

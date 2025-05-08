@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { collection, addDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
+import { db } from '../../firebaseConfig';
 import { Octicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { useAuth } from '../context/authContext';
-import { ClassSelector } from '../components/ClassSelector';
+import { useAuth } from '../../context/authContext';
+import { ClassSelector } from '../../components/ClassSelector';
 
 
 // Student Form Screen - Used for both Add and Edit functionality

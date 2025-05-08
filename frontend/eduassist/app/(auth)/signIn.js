@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import Loading from '../components/loading';
-import CustomKeyboardView from '../components/CustomKeyboardView';
-import { useAuth } from '../context/authContext';
+import Loading from '../../components/loading';
+import CustomKeyboardView from '../../components/CustomKeyboardView';
+import { useAuth } from '../../context/authContext';
 
 
 export default function signIn() {

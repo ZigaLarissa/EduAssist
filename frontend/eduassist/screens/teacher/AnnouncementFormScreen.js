@@ -14,35 +14,26 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather } from '@expo/vector-icons';
 import { collection, getDocs, query, where, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, storage } from '../firebaseConfig';
-import { useAuth } from '../context/authContext';
+import { db, storage } from '../../firebaseConfig';
+import { useAuth } from '../../context/authContext';
 import * as ImagePicker from 'expo-image-picker';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useRouter } from 'expo-router';
 
-const HomeworkFormScreen = ({ route, navigation }) => {
+const AnnouncementFormScreen = ({ navigation }) => {
   const router = useRouter();
   const { user } = useAuth();
   const [title, setTitle] = useState('');
-  const [DueDate, setDueDate] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [text, setText] = useState('');
   const [classes, setClasses] = useState([]);
   const [selectedClasses, setSelectedClasses] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchingClasses, setFetchingClasses] = useState(true);
-  const [fetchingSubjects, setFetchingSubjects] = useState(true);
   const [image, setImage] = useState(null);
 
-
-  useEffect(() => {
-      fetchClasses();
-      fetchSubjects();
-    }, [user]);
-
-
   // Fetch classes joined by the current teacher
+  useEffect(() => {
     const fetchClasses = async () => {
       try {
         setFetchingClasses(true);
@@ -67,45 +58,15 @@ const HomeworkFormScreen = ({ route, navigation }) => {
         setFetchingClasses(false);
       }
     };
-
-    const fetchSubjects = async () => {
-        try {
-          setFetchingSubjects(true);
-          if (!user || !user.uid) return;
-  
-          const subjectsQuery = query(
-            collection(db, 'subjects'),
-            where('teacherId', '==', user.uid)
-          );
-          
-          const subjectsSnapshot = await getDocs(subjectsQuery);
-          const subjectsList = subjectsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-          
-          setSubjects(subjectsList);
-        } catch (error) {
-          console.error('Error fetching subjects: ', error);
-          Alert.alert('Error', 'Failed to fetch subjects. Please try again.');
-        } finally {
-          setFetchingSubjects(false);
-        }
-    };
+    
+    fetchClasses();
+  }, [user]);
 
   const toggleClass = (classId) => {
     if (selectedClasses.includes(classId)) {
       setSelectedClasses(selectedClasses.filter(id => id !== classId));
     } else {
       setSelectedClasses([...selectedClasses, classId]);
-    }
-  };
-
-  const toggleSubject = (subjectId) => {
-    if (selectedSubjects.includes(subjectId)) {
-      setSelectedSubjects(selectedSubjects.filter(id => id !== subjectId));
-    } else {
-      setSelectedSubjects([...selectedSubjects, subjectId]);
     }
   };
 
@@ -117,14 +78,6 @@ const HomeworkFormScreen = ({ route, navigation }) => {
     }
   };
 
-  const toggleAllSubjects = () => {
-    if (selectedSubjects.length === subjects.length) {
-      setSelectedSubjects([]);
-    } else {
-      setSelectedSubjects(subjects.map(c => c.id));
-    }
-  };
-
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -133,29 +86,29 @@ const HomeworkFormScreen = ({ route, navigation }) => {
       quality: 0.8,
     });
 
-    if (!result.canceled) {
+    console.log("Image Picker Result: ", result);
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
       setImage(result.assets[0].uri);
+    } else {
+      console.log("Image picker was canceled or failed.");
     }
   };
 
   const validateForm = () => {
     if (!title.trim()) {
-      Alert.alert('Error', 'Please enter homework title');
+      Alert.alert('Error', 'Please enter an announcement title');
       return false;
     }
     if (!text.trim()) {
-      Alert.alert('Error', 'Please enter homework text');
+      Alert.alert('Error', 'Please enter announcement text');
       return false;
     }
     if (selectedClasses.length === 0) {
       Alert.alert('Error', 'Please select at least one class');
       return false;
     }
-    if (selectedSubjects.length === 0) {
-        Alert.alert('Error', 'Please select at most one subjects');
-        return false;
-    }
-    if (!DueDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    if (!startDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
       Alert.alert('Error', 'Please enter a valid date in YYYY-MM-DD format');
       return false;
     }
@@ -170,33 +123,69 @@ const HomeworkFormScreen = ({ route, navigation }) => {
       let imageUrl = null;
       
       // Upload image if available
+      // if (image) {
+      //   const response = await fetch(image);
+      //   const blob = await response.blob();
+      //   const storageRef = ref(storage, `announcements/${Date.now()}`);
+      //   await uploadBytes(storageRef, blob);
+      //   imageUrl = await getDownloadURL(storageRef);
+      // }
+
       if (image) {
-        const response = await fetch(image);
-        const blob = await response.blob();
-        const storageRef = ref(storage, `announcements/${Date.now()}`);
-        await uploadBytes(storageRef, blob);
-        imageUrl = await getDownloadURL(storageRef);
+        try {
+          console.log("Starting image upload process");
+          console.log("Image URI:", image);
+          
+          // Check if storage is initialized
+          console.log("Storage object:", storage);
+          
+          const response = await fetch(image);
+          console.log("Fetch response status:", response.status);
+          
+          const blob = await response.blob();
+          console.log("Blob created successfully, size:", blob.size);
+          
+          // Create storage reference with more unique path
+          const imagePath = `announcements/${user.uid}_${Date.now()}`;
+          console.log("Creating storage reference at path:", imagePath);
+          const storageRef = ref(storage, imagePath);
+          console.log("Storage reference created:", storageRef);
+          
+          // Upload with explicit metadata
+          const metadata = {
+            contentType: 'image/jpeg',
+          };
+          
+          const uploadResult = await uploadBytes(storageRef, blob, metadata);
+          console.log("Upload successful, result:", uploadResult);
+          
+          imageUrl = await getDownloadURL(uploadResult.ref);
+          console.log("Download URL obtained:", imageUrl);
+        } catch (error) {
+          console.error("Detailed upload error:", error);
+          // Continue without the image
+          console.log("Continuing announcement creation without image");
+        }
       }
       
       // Create the announcement
-      await addDoc(collection(db, 'homeworks'), {
+      await addDoc(collection(db, 'announcements'), {
         title: title.trim(),
         text: text.trim(),
-        DueDate: DueDate,
+        startDate: startDate,
         createdAt: serverTimestamp(),
         createdBy: user.uid,
         teacherName: user.displayName || user.email,
         classIds: selectedClasses,
-        subjectIds: selectedSubjects,
         imageUrl: imageUrl,
       });
       
-      Alert.alert('Success', 'Homework created successfully', [
-        { text: 'OK', onPress: () => navigation.goBack() }
+      Alert.alert('Success', 'Announcement created successfully', [
+        { text: 'OK', onPress: () => router.replace('home') }
       ]);
     } catch (error) {
-      console.error('Error creating homework: ', error);
-      Alert.alert('Error', 'Failed to create homework. Please try again.');
+      console.error('Error creating announcement: ', error);
+      Alert.alert('Error', 'Failed to create announcement. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -208,13 +197,13 @@ const HomeworkFormScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Feather name="arrow-left" size={wp('6%')} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Assign <Text style={styles.redText}>Homework</Text></Text>
+        <Text style={styles.headerTitle}>Send <Text style={styles.redText}>Announcement</Text></Text>
         <View style={styles.placeholderRight} />
       </View>
       
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.formContainer}>
-          <Text style={styles.label}>Homework Title</Text>
+          <Text style={styles.label}>Announcement Title</Text>
           <TextInput
             style={styles.input}
             value={title}
@@ -222,46 +211,23 @@ const HomeworkFormScreen = ({ route, navigation }) => {
             placeholder="Enter title"
           />
           
-          <Text style={styles.label}>Due Date</Text>
+          <Text style={styles.label}>Starting Date</Text>
           <TextInput
             style={styles.input}
-            value={DueDate}
-            onChangeText={setDueDate}
+            value={startDate}
+            onChangeText={setStartDate}
             placeholder="YYYY-MM-DD"
           />
           
-          <Text style={styles.label}>Instructions</Text>
+          <Text style={styles.label}>Announcement Text</Text>
           <TextInput
             style={[styles.input, styles.textArea]}
             value={text}
             onChangeText={setText}
-            placeholder="Enter instruction details"
+            placeholder="Enter announcement details"
             multiline
           />
           
-          <View style={styles.imageSection}>
-            <TouchableOpacity 
-              style={styles.uploadButton} 
-              onPress={pickImage}
-              disabled={loading}
-            >
-              <Feather name="image" size={wp('5%')} color="#d20505" />
-              <Text style={styles.uploadButtonText}>Upload Image</Text>
-            </TouchableOpacity>
-            
-            {image && (
-              <View style={styles.imagePreviewContainer}>
-                <Image source={{ uri: image }} style={styles.imagePreview} />
-                <TouchableOpacity 
-                  style={styles.removeImageButton}
-                  onPress={() => setImage(null)}
-                >
-                  <Feather name="x" size={wp('5%')} color="#fff" />
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-
           <Text style={styles.label}>Select Recipients</Text>
           {fetchingClasses ? (
             <ActivityIndicator size="small" color="#d20505" style={styles.loader} />
@@ -270,12 +236,12 @@ const HomeworkFormScreen = ({ route, navigation }) => {
               <Text style={styles.emptyStateText}>
                 No classes available. Please create a class first.
               </Text>
-              {/* <TouchableOpacity 
+              <TouchableOpacity 
                 style={styles.createClassButton}
                 onPress={() => router.push('ClassesScreen')}
               >
                 <Text style={styles.createClassButtonText}>Create Class</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={styles.checkboxContainer}>
@@ -302,7 +268,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
                     selectedClasses.includes(classItem.id) && styles.checkboxSelected
                   ]}>
                     {selectedClasses.includes(classItem.id) && (
-                      <Feather name="check" size={wp('2%')} color="#fff" />
+                      <Feather name="check" size={wp('4%')} color="#fff" />
                     )}
                   </View>
                   <Text style={styles.checkboxLabel}>{classItem.name} Parents</Text>
@@ -310,56 +276,29 @@ const HomeworkFormScreen = ({ route, navigation }) => {
               ))}
             </View>
           )}
-
-          <Text style={styles.label}>Select Subject</Text>
-          {fetchingSubjects ? (
-            <ActivityIndicator size="small" color="#d20505" style={styles.loader} />
-          ) : subjects.length === 0 ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyStateText}>
-                No subjects available. Please create a subject first.
-              </Text>
-              {/* <TouchableOpacity 
-                style={styles.createClassButton}
-                onPress={() => router.push('ClassScreen')}
-              >
-                <Text style={styles.createClassButtonText}>Create Subject</Text>
-              </TouchableOpacity> */}
-            </View>
-          ) : (
-            <View style={styles.checkboxContainer}>
-              {/* <TouchableOpacity
-                style={styles.checkboxItem}
-                onPress={toggleAllSubjects}
-              >
-                <View style={styles.checkbox}>
-                  {selectedSubjects.length === subjects.length && subjects.length > 0 && (
-                    <Feather name="check" size={wp('4%')} color="#fff" />
-                  )}
-                </View>
-                <Text style={styles.checkboxLabel}>All Subjects</Text>
-              </TouchableOpacity> */}
-              
-              {subjects.map((subjectItem) => (
-                <TouchableOpacity
-                  key={subjectItem.id}
-                  style={styles.checkboxItem}
-                  onPress={() => toggleSubject(subjectItem.id)}
+          
+          <View style={styles.imageSection}>
+            <TouchableOpacity 
+              style={styles.uploadButton} 
+              onPress={pickImage}
+              disabled={loading}
+            >
+              <Feather name="image" size={wp('5%')} color="#d20505" />
+              <Text style={styles.uploadButtonText}>Upload Image</Text>
+            </TouchableOpacity>
+            
+            {image && (
+              <View style={styles.imagePreviewContainer}>
+                <Image source={{ uri: image }} style={styles.imagePreview} />
+                <TouchableOpacity 
+                  style={styles.removeImageButton}
+                  onPress={() => setImage(null)}
                 >
-                  <View style={[
-                    styles.checkbox,
-                    selectedSubjects.includes(subjectItem.id) && styles.checkboxSelected
-                  ]}>
-                    {selectedSubjects.includes(subjectItem.id) && (
-                      <Feather name="check" size={wp('2%')} color="#fff" />
-                    )}
-                  </View>
-                  <Text style={styles.checkboxLabel}>{subjectItem.name}</Text>
+                  <Feather name="x" size={wp('5%')} color="#fff" />
                 </TouchableOpacity>
-              ))}
-            </View>
-          )}
-
+              </View>
+            )}
+          </View>
           
           <TouchableOpacity
             style={[styles.sendButton, (loading) && styles.disabledButton]}
@@ -369,7 +308,7 @@ const HomeworkFormScreen = ({ route, navigation }) => {
             {loading ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text style={styles.sendButtonText}>Assign Homework</Text>
+              <Text style={styles.sendButtonText}>Send Announcement</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -430,33 +369,21 @@ const styles = StyleSheet.create({
     height: hp('15%'),
     textAlignVertical: 'top',
   },
-  uploadButton: {
-    borderRadius: wp('3%'),
-    padding: wp('4%'),
-    padding: hp('6%'),
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#d20505',
-  },
   checkboxContainer: {
     marginTop: hp('1%'),
-    marginRight: wp('1%'),
-    flexDirection: 'row',
   },
   checkboxItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: hp('1.5%'),
-    marginRight: wp('2%')
   },
   checkbox: {
-    width: wp('4%'),
-    height: wp('4%'),
+    width: wp('6%'),
+    height: wp('6%'),
     borderRadius: wp('1.5%'),
     borderWidth: 2,
     borderColor: '#d20505',
-    marginRight: wp('1%'),
+    marginRight: wp('3%'),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -464,7 +391,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#d20505',
   },
   checkboxLabel: {
-    fontSize: wp('3%'),
+    fontSize: wp('4%'),
+  },
+  uploadButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: wp('10%'),
+    paddingVertical: hp('1.5%'),
+    paddingHorizontal: wp('6%'),
+    borderWidth: 1,
+    borderColor: '#d20505',
+    alignSelf: 'flex-start',
+    marginTop: hp('2%'),
   },
   uploadButtonText: {
     color: '#d20505',
@@ -536,4 +475,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { HomeworkFormScreen };
+export { AnnouncementFormScreen };

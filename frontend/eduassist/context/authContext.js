@@ -11,6 +11,8 @@ export const authContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
+  const [role, setRole] = useState(null);
+
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -33,6 +35,7 @@ export const AuthContextProvider = ({ children }) => {
 
     if (docSnap.exists()) {
       let data = docSnap.data();
+      setRole(data.role);
       setUser({...user, username: data.username, userId: user.uid});
     }
   }
@@ -82,7 +85,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <authContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
+    <authContext.Provider value={{ user, isAuthenticated, role, login, register, logout }}>
       {children}
     </authContext.Provider>
   );

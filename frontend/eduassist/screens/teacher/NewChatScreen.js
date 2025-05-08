@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-import ChatService from '../context/chatService';
+import ChatService from '../../context/chatService';
 import { Octicons, Feather } from '@expo/vector-icons';
 
 

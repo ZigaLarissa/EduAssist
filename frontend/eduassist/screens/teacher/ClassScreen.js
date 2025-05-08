@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../../context/authContext';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Modal } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { db } from '../firebaseConfig';
+import { db } from '../../firebaseConfig';
 import { collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc } from 'firebase/firestore';
 
 

@@ -13,8 +13,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { collection, getDocs, query, where, orderBy, limit } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
-import { useAuth } from '../context/authContext';
+import { db } from '../../firebaseConfig';
+import { useAuth } from '../../context/authContext';
 import { useRouter } from 'expo-router';
 import { onSnapshot } from 'firebase/firestore';
 
@@ -136,7 +136,7 @@ const renderClassItem = ({ item }) => (
       <View style={styles.header}>
         {/* App Name & Icon */}
         <View style={styles.headerCenter}>
-          <Image source={require("../assets/images/icon.png")} style={styles.logo} />
+          <Image source={require("../../assets/images/icon.png")} style={styles.logo} />
           <Text style={styles.appName}>EduAssist</Text>
         </View>
 

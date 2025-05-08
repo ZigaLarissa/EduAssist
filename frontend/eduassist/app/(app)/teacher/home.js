@@ -4,20 +4,20 @@ import { NavigationContainer } from '@react-navigation/native'
 import { NavigationIndependentTree } from '@react-navigation/native'
 
 
-import { StudentsListScreen } from "../../screens/studentListScreen"
-import { StudentsFormScreen } from "../../screens/studentFormScreen"
-import { ClassesScreen } from "../../screens/ClassesScreen"
-import { HomeScreen } from "../../screens/HomeScreen"
-import { AnnouncementFormScreen } from "../../screens/AnnouncementFormScreen"
-import { ClassScreen } from "../../screens/ClassScreen"
-import { HomeworkFormScreen } from '../../screens/HomeworkFormScreen'
+import { StudentsListScreen } from "../../../screens/teacher/studentListScreen"
+import { StudentsFormScreen } from "../../../screens/teacher/studentFormScreen"
+import { ClassesScreen } from "../../../screens/teacher/ClassesScreen"
+import { HomeScreen } from "../../../screens/teacher/HomeScreen"
+import { AnnouncementFormScreen } from "../../../screens/teacher/AnnouncementFormScreen"
+import { ClassScreen } from "../../../screens/teacher/ClassScreen"
+import { HomeworkFormScreen } from '../../../screens/teacher/HomeworkFormScreen'
 import { StatusBar } from 'expo-status-bar'
 import { createStackNavigator } from '@react-navigation/stack'
-import { ChatListScreen } from '../../screens/ChatListScreen'
-import { ChatScreen } from '../../screens/ChatScreen'
-import { NewChatScreen } from '../../screens/NewChatScreen'
-import { HomeworkViewScreen } from '../../screens/HomeworkViewScreen'
-import { AnnouncementScreen } from '../../screens/AnnouncementScreen'
+import { ChatListScreen } from '../../../screens/teacher/ChatListScreen'
+import { ChatScreen } from '../../../screens/teacher/ChatScreen'
+import { NewChatScreen } from '../../../screens/teacher/NewChatScreen'
+import { HomeworkViewScreen } from '../../../screens/teacher/HomeworkViewScreen'
+import { AnnouncementScreen } from '../../../screens/teacher/AnnouncementScreen'
 
 
 const Stack = createStackNavigator()
